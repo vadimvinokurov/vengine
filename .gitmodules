@@ -1,0 +1,3 @@
+[submodule "vengine/lib3dpart/spdlog"]
+	path = vengine/lib3dpart/spdlog
+	url = https://github.com/gabime/spdlog

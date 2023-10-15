@@ -4,8 +4,10 @@
     <ClInclude Include="src\common\ve_common.h" />
     <ClInclude Include="src\ve_application.h" />
     <ClInclude Include="src\vengine.h" />
+    <ClInclude Include="src\log.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ve_application.cpp" />
+    <ClCompile Include="src\log.cpp" />
   </ItemGroup>
 </Project>
