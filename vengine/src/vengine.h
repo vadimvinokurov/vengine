@@ -1,4 +1,4 @@
 #pragma once
 
 #include "ve_application.h"
-#include "log.h"
+#include "ve_log.h"
