@@ -20,7 +20,7 @@ namespace VE
     };
 }
 
-#ifdef VE_IS_ENGINE_REGION
+#ifdef VE_ENGINE_REGION
 #define VE_CRITICAL(...) ::VE::Log::GetEngineLogger()->critical(__VA_ARGS__)
 #define VE_ERROR(...) ::VE::Log::GetEngineLogger()->error(__VA_ARGS__)
 #define VE_WARNING(...) ::VE::Log::GetEngineLogger()->warn(__VA_ARGS__)
