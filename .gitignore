@@ -399,3 +399,6 @@ FodyWeavers.xsd
 # User specific
 .idea
 *.sln.iml
+*.vcxproj
+*.vcxproj.filters
+*.sln
