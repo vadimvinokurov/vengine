@@ -25,13 +25,14 @@ project "vengine"
 	
 	includedirs
 	{
+		"%{prj.name}/src",
 		"%{prj.name}/lib3dpart/spdlog/include"
 	}
 	
 	filter "system:windows"
-		cppdialect "C++17"
+		cppdialect "C++20"
 		staticruntime "On"
-		systemversion "10.0"
+		systemversion "latest"
 		defines
 		{
 			"VE_PLATFORM_WINDOWS",
@@ -90,9 +91,9 @@ project "Sandbox"
 	}
 	
 	filter "system:windows"
-		cppdialect "C++17"
+		cppdialect "C++20"
 		staticruntime "On"
-		systemversion "10.0"
+		systemversion "latest"
 		defines
 		{
 			"VE_PLATFORM_WINDOWS",

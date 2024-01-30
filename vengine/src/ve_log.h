@@ -1,9 +1,8 @@
 ﻿#pragma once
 
-#include <memory>
-
 #include "common/ve_common.h"
 #include "spdlog/spdlog.h"
+#include "spdlog/fmt/ostr.h"
 
 
 namespace VE
