@@ -2,14 +2,15 @@
 
 #include "ve_application.h"
 #include "ve_log.h"
-#include "events/ve_application_event.h"
+
+#include <GLFW/glfw3.h>
 
 using namespace VE;
-
 
 Application::Application()
 {
    Log::Init();
+   window = VE::Window::Create();
 }
 
 
@@ -20,6 +21,9 @@ Application::~Application()
 
 void Application::Run()
 {
-   WindowResizeEvent e(1233, 111);
-   VE_TRACE(e);
+   while (running) {
+      glClearColor(1, 0, 1, 1);
+      glClear(GL_COLOR_BUFFER_BIT);
+      window->OnUpdate();
+   }
 }

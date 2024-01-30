@@ -1,5 +1,5 @@
 #pragma once
-
+#include "ve_pch.h"
 #include "common/ve_common.h"
 
 namespace VE {
@@ -93,4 +93,7 @@ inline std::ostream& operator<<(std::ostream& os, const Event& e)
 {
    return os << e.ToSting();
 }
+
+
+using EventCallback = std::function<void(Event&)>;
 }
