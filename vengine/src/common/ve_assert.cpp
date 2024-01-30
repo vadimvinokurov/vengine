@@ -12,6 +12,6 @@ NOINLINE void VE::AssertImpl(std::string cond, std::string file, int line, std::
       return;
    }
 
-   int* invalidPointer = 0;
+   int* invalidPointer = nullptr;
    *invalidPointer = 0xFFFF;
 }

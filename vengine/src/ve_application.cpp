@@ -6,14 +6,20 @@
 
 using namespace VE;
 
-Application::Application() {
-	VE::Log::Init();
+
+Application::Application()
+{
+   Log::Init();
 }
 
-Application::~Application() {
+
+Application::~Application()
+{
 }
 
-void Application::Run() {
-	WindowResizeEvent e(1233, 111);
-	VE_TRACE(e);
+
+void Application::Run()
+{
+   WindowResizeEvent e(1233, 111);
+   VE_TRACE(e);
 }

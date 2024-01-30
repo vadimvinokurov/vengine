@@ -5,19 +5,18 @@
 #include "spdlog/fmt/ostr.h"
 
 
-namespace VE
-{
-    class VE_API Log
-    {
-    public:
-        static void Init();
-        inline static std::shared_ptr<spdlog::logger>& GetEngineLogger();
-        inline static std::shared_ptr<spdlog::logger>& GetClientLogger();
-    private:
-        inline static std::shared_ptr<spdlog::logger> clientLogger;
-        inline static std::shared_ptr<spdlog::logger> engineLogger;
-    };
-}
+namespace VE {
+class VE_API Log {
+public:
+   static void Init();
+   inline static std::shared_ptr<spdlog::logger>& GetEngineLogger();
+   inline static std::shared_ptr<spdlog::logger>& GetClientLogger();
+
+private:
+   inline static std::shared_ptr<spdlog::logger> clientLogger;
+   inline static std::shared_ptr<spdlog::logger> engineLogger;
+};
+} //namespace VE
 
 #ifdef VE_ENGINE_REGION
 #define VE_CRITICAL(...) ::VE::Log::GetEngineLogger()->critical(__VA_ARGS__)
