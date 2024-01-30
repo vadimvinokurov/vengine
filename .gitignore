@@ -404,4 +404,3 @@ FodyWeavers.xsd
 *.sln
 *.clang-format
 *.clang-tidy
-*.clang-format
