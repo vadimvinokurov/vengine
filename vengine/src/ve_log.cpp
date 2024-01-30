@@ -1,4 +1,6 @@
-﻿#include "ve_log.h"
+﻿#include "ve_pch.h"
+
+#include "ve_log.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 
 using namespace VE;

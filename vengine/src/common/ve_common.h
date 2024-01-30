@@ -1,7 +1,5 @@
 #pragma once
 
-#include "ve_pch.h"
-
 #ifdef VE_PLATFORM_WINDOWS
 	#ifdef VE_BUILD_DLL
 		#define VE_API __declspec(dllexport)

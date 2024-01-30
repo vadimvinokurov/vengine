@@ -17,6 +17,9 @@ project "vengine"
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 	
+	pchheader "ve_pch.h"
+	pchsource "vengine/src/ve_pch.cpp"
+	
 	files
 	{
 		"%{prj.name}/src/**.h",

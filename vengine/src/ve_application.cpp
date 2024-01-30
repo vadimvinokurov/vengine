@@ -1,3 +1,5 @@
+#include "ve_pch.h"
+
 #include "ve_application.h"
 #include "ve_log.h"
 #include "events/ve_application_event.h"
