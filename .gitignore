@@ -402,3 +402,6 @@ FodyWeavers.xsd
 *.vcxproj
 *.vcxproj.filters
 *.sln
+*.clang-format
+*.clang-tidy
+*.clang-format

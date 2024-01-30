@@ -10,6 +10,12 @@ workspace "vengine"
 	}
 	
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+
+IncludeDir = {}
+IncludeDir["GLFW"] = "vengine/lib3dpart/GLFW/include"
+
+include "vengine/lib3dpart/GLFW"
+
 project "vengine"
 	location "vengine"
 	kind "SharedLib"
@@ -29,7 +35,14 @@ project "vengine"
 	includedirs
 	{
 		"%{prj.name}/src",
-		"%{prj.name}/lib3dpart/spdlog/include"
+		"%{prj.name}/lib3dpart/spdlog/include",
+		"%{IncludeDir.GLFW}"
+	}
+	
+	links
+	{
+		"GLFW",
+		"opengl32.lib"
 	}
 	
 	filter "system:windows"
