@@ -11,11 +11,11 @@
       }                                         \
    } while (false)
 
-#define ASSERT_MSG(cond, formatStr, ...)                                               \
-   do {                                                                                \
-      if (!(cond)) {                                                                   \
-         AssertImpl(#cond, __FILE__, __LINE__, std::format(formatStr, ##__VA_ARGS__)); \
-      }                                                                                \
+#define ASSERT_MSG(cond, formatStr, ...)                                                   \
+   do {                                                                                    \
+      if (!(cond)) {                                                                       \
+         VE::AssertImpl(#cond, __FILE__, __LINE__, std::format(formatStr, ##__VA_ARGS__)); \
+      }                                                                                    \
    } while (false)
 
 

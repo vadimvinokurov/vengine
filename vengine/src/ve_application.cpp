@@ -7,10 +7,12 @@
 
 using namespace VE;
 
+
 Application::Application()
 {
    Log::Init();
    window = VE::Window::Create();
+   window->SetEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
 }
 
 
@@ -26,4 +28,20 @@ void Application::Run()
       glClear(GL_COLOR_BUFFER_BIT);
       window->OnUpdate();
    }
+}
+
+
+void Application::OnEvent(Event& event)
+{
+   EventDispatcher dispatcher(event);
+   dispatcher.Dispatch<WindowCloseEvent>(std::bind(&Application::OnWindowClose, this, std::placeholders::_1));
+   VE_TRACE("{}", event);
+}
+
+
+bool Application::OnWindowClose(WindowCloseEvent& event)
+{
+   running = false;
+
+   return true;
 }

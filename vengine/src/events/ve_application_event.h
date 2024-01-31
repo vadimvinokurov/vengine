@@ -1,5 +1,5 @@
 ﻿#pragma once
-
+#include "ve_pch.h"
 #include "common/ve_common.h"
 #include "ve_event.h"
 

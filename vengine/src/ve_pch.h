@@ -13,6 +13,8 @@
 #include <unordered_set>
 #include <cassert>
 #include <cstring>
+#include <format>
+
 
 #ifdef VE_PLATFORM_WINDOWS
 #include <Windows.h>
