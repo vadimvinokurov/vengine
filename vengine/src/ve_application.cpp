@@ -1,7 +1,6 @@
 #include "ve_pch.h"
-
+#include "common/ve_log.h"
 #include "ve_application.h"
-#include "ve_log.h"
 
 #include <GLFW/glfw3.h>
 
