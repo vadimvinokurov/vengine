@@ -159,6 +159,13 @@ void VE::WindowsWindow::Init(const WindowsProps& props)
       _this->eventCallback(event);
    });
 
+   glfwSetCharCallback(pWindow, [](GLFWwindow* window, unsigned int c) {
+      auto* _this = static_cast<WindowsWindow*>(glfwGetWindowUserPointer(window));
+
+      KeyTypedEvent event(c);
+      _this->eventCallback(event);
+   });
+
    glfwSetCursorPosCallback(pWindow, [](GLFWwindow* window, double x, double y) {
       auto* _this = static_cast<WindowsWindow*>(glfwGetWindowUserPointer(window));
 

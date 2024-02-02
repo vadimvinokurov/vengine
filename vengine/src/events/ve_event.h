@@ -18,6 +18,7 @@ enum class EventType {
 
    KeyPressed,
    KeyReleased,
+   KeyTyped,
 
    MouseButtonPressed,
    MouseButtonReleased,
@@ -98,4 +99,7 @@ inline std::ostream& operator<<(std::ostream& os, const Event& e)
 
 
 using EventCallback = std::function<void(Event&)>;
-}
+} //namespace VE
+
+#define MAKE_EVENT_DISPATCHER(event) EventDispatcher dispatcher(event)
+#define DISPATCH_EVENT(HOST_CLASS, EVENT_TYPE) dispatcher.Dispatch<EVENT_TYPE>(std::bind(&HOST_CLASS::On##EVENT_TYPE, this, std::placeholders::_1))

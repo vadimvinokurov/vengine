@@ -4,14 +4,23 @@
 
 #include <glad/glad.h>
 
+
+#include "common/ve_assert.h"
+#include "imgui/ve_imgui_layer.h"
+
 using namespace VE;
 
 
 Application::Application()
 {
+   ASSERT(!instance);
+
+   instance = this;
    Log::Init();
    window = VE::Window::Create();
    window->SetEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
+
+   PushOverlay(new ImGuiLayer());
 }
 
 
@@ -25,6 +34,11 @@ void Application::Run()
    while (running) {
       glClearColor(1, 0, 1, 1);
       glClear(GL_COLOR_BUFFER_BIT);
+
+      for (Layer* layer : layerStack) {
+         layer->OnUpdate();
+      }
+
       window->OnUpdate();
    }
 }
@@ -61,5 +75,5 @@ void Application::PushLayer(Layer* layer)
 
 void Application::PushOverlay(Layer* layer)
 {
-   layerStack.PopOverlay(layer);
+   layerStack.PushOverlay(layer);
 }

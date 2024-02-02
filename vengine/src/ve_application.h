@@ -12,14 +12,23 @@ public:
    Application();
    virtual ~Application();
 
+   inline static Application* Get() { return instance; }
+
+
    void Run();
    void OnEvent(Event& event);
    bool OnWindowClose(WindowCloseEvent& event);
    void PushLayer(Layer* layer);
    void PushOverlay(Layer* layer);
+
+   Window& GetWindow() { return *window; }
+
 private:
    std::unique_ptr<Window> window;
    LayerStack layerStack{};
    bool running = true;
+
+   inline static Application* instance = nullptr;
 };
+
 }

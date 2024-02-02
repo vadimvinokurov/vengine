@@ -4,3 +4,6 @@
 [submodule "vengine/lib3dpart/GLFW"]
 	path = vengine/lib3dpart/GLFW
 	url = https://github.com/vadimvinokurov/glfw.git
+[submodule "vengine/lib3dpart/imgui"]
+	path = vengine/lib3dpart/imgui
+	url = https://github.com/vadimvinokurov/imgui.git

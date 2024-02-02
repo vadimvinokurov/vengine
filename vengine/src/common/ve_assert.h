@@ -18,10 +18,12 @@
       }                                                                                    \
    } while (false)
 
+#define ASSERT_FAILED(formatStr, ...) ASSERT_MSG(false, formatStr, ##__VA_ARGS__)
 
 #else
 #define ASSERT(...)
 #define ASSERT_MSG(...)
+#define ASSERT_FAILED(...)
 #endif
 
 namespace VE {

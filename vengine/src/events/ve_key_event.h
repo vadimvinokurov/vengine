@@ -51,4 +51,19 @@ public:
 
    EVENT_CLASS_TYPE(KeyPressed)
 };
+
+
+class VE_API KeyTypedEvent : public KeyEvent {
+public:
+   KeyTypedEvent(int _keyCode)
+      : KeyEvent(_keyCode)
+   {}
+
+   std::string ToSting() const override
+   {
+      return std::format("KeyTypedEvent: {}", keyCode);
+   }
+
+   EVENT_CLASS_TYPE(KeyTyped)
+};
 }
