@@ -14,6 +14,7 @@
 #include <cassert>
 #include <cstring>
 #include <format>
+#include <ranges>
 
 
 #ifdef VE_PLATFORM_WINDOWS

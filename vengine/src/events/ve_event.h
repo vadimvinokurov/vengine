@@ -59,6 +59,8 @@ public:
       return GetCategoryFlags() & category;
    }
 
+   bool IsHandled() const { return isHandled; }
+
 protected:
    bool isHandled = false;
 };

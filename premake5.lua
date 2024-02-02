@@ -20,6 +20,7 @@ project "vengine"
 	location "vengine"
 	kind "SharedLib"
 	language "C++"
+	
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 	
@@ -63,23 +64,24 @@ project "vengine"
 	
 	filter "configurations:Debug"
 		defines "VE_DEBUG"
+		buildoptions "/MDd"
 		symbols "On"
 		
 	filter "configurations:Release"
 		defines "VE_RELEASE"
 		symbols "On"
+		buildoptions "/MD"
 		optimize "On"
 		
 	filter "configurations:Profile"
 		defines "VE_PROFILE"
+		buildoptions "/MD"
 		optimize "On"
 	
 	filter "configurations:Retail"
 		defines "VE_RETAIL"
+		buildoptions "/MD"
 		optimize "On"
-	
-	filter {"system:windows", "configurations:Release"}
-		buildoptions "/MT"
 
 project "Sandbox"
 	location "Sandbox"
@@ -117,20 +119,21 @@ project "Sandbox"
 	
 	filter "configurations:Debug"
 		defines "VE_DEBUG"
+		buildoptions "/MDd"
 		symbols "On"
 		
 	filter "configurations:Release"
 		defines "VE_RELEASE"
 		symbols "On"
+		buildoptions "/MD"
 		optimize "On"
 		
 	filter "configurations:Profile"
 		defines "VE_PROFILE"
+		buildoptions "/MD"
 		optimize "On"
 	
 	filter "configurations:Retail"
 		defines "VE_RETAIL"
+		buildoptions "/MD"
 		optimize "On"
-	
-	filter {"system:windows", "configurations:Release"}
-		buildoptions "/MT"

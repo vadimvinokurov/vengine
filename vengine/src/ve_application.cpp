@@ -35,6 +35,13 @@ void Application::OnEvent(Event& event)
    EventDispatcher dispatcher(event);
    dispatcher.Dispatch<WindowCloseEvent>(std::bind(&Application::OnWindowClose, this, std::placeholders::_1));
    VE_TRACE("{}", event);
+
+   for (auto it = layerStack.rbegin(); it != layerStack.rend(); ++it) {
+      (*it)->OnEvent(event);
+      if (event.IsHandled()) {
+         break;
+      }
+   }
 }
 
 
@@ -43,4 +50,16 @@ bool Application::OnWindowClose(WindowCloseEvent& event)
    running = false;
 
    return true;
+}
+
+
+void Application::PushLayer(Layer* layer)
+{
+   layerStack.PushLayer(layer);
+}
+
+
+void Application::PushOverlay(Layer* layer)
+{
+   layerStack.PopOverlay(layer);
 }
