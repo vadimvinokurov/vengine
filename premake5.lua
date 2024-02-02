@@ -19,6 +19,7 @@ include "vengine/lib3dpart/GLFW"
 project "vengine"
 	location "vengine"
 	kind "SharedLib"
+	staticruntime "off"
 	language "C++"
 	
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
@@ -48,7 +49,6 @@ project "vengine"
 	
 	filter "system:windows"
 		cppdialect "C++20"
-		staticruntime "On"
 		systemversion "latest"
 		defines
 		{
@@ -64,28 +64,30 @@ project "vengine"
 	
 	filter "configurations:Debug"
 		defines "VE_DEBUG"
-		buildoptions "/MDd"
-		symbols "On"
+		runtime "Debug"
+		optimize "Off"
+        symbols "On"
 		
 	filter "configurations:Release"
 		defines "VE_RELEASE"
-		symbols "On"
-		buildoptions "/MD"
-		optimize "On"
+		runtime "Release"
+		optimize "speed"
 		
 	filter "configurations:Profile"
 		defines "VE_PROFILE"
-		buildoptions "/MD"
-		optimize "On"
+		runtime "Release"
+		optimize "speed"
 	
 	filter "configurations:Retail"
 		defines "VE_RETAIL"
-		buildoptions "/MD"
-		optimize "On"
+		runtime "Release"
+		optimize "speed"
+        symbols "off"
 
 project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
+	staticruntime "off"
 	language "C++"
 	
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
@@ -110,7 +112,6 @@ project "Sandbox"
 	
 	filter "system:windows"
 		cppdialect "C++20"
-		staticruntime "On"
 		systemversion "latest"
 		defines
 		{
@@ -119,21 +120,22 @@ project "Sandbox"
 	
 	filter "configurations:Debug"
 		defines "VE_DEBUG"
-		buildoptions "/MDd"
-		symbols "On"
+		runtime "Debug"
+		optimize "Off"
+        symbols "On"
 		
 	filter "configurations:Release"
 		defines "VE_RELEASE"
-		symbols "On"
-		buildoptions "/MD"
-		optimize "On"
+		runtime "Release"
+		optimize "speed"
 		
 	filter "configurations:Profile"
 		defines "VE_PROFILE"
-		buildoptions "/MD"
-		optimize "On"
+		runtime "Release"
+		optimize "speed"
 	
 	filter "configurations:Retail"
 		defines "VE_RETAIL"
-		buildoptions "/MD"
-		optimize "On"
+		runtime "Release"
+		optimize "speed"
+        symbols "off"
