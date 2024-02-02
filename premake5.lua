@@ -13,8 +13,10 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 IncludeDir = {}
 IncludeDir["GLFW"] = "vengine/lib3dpart/GLFW/include"
+IncludeDir["GLAD"] = "vengine/lib3dpart/GLAD/include"
 
 include "vengine/lib3dpart/GLFW"
+include "vengine/lib3dpart/GLAD"
 
 project "vengine"
 	location "vengine"
@@ -38,12 +40,14 @@ project "vengine"
 	{
 		"%{prj.name}/src",
 		"%{prj.name}/lib3dpart/spdlog/include",
-		"%{IncludeDir.GLFW}"
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.GLAD}"
 	}
 	
 	links
 	{
 		"GLFW",
+		"GLAD",
 		"opengl32.lib"
 	}
 	
@@ -54,7 +58,8 @@ project "vengine"
 		{
 			"VE_PLATFORM_WINDOWS",
 			"VE_BUILD_DLL",
-			"VE_ENGINE_REGION"
+			"VE_ENGINE_REGION",
+			"GLFW_INCLUDE_NONE"
 		}
 		
 		postbuildcommands

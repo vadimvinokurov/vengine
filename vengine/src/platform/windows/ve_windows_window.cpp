@@ -7,6 +7,7 @@
 #include "events/ve_mouse_event.h"
 
 #include <GLFW/glfw3.h>
+#include <glad/glad.h>
 
 
 namespace {
@@ -84,6 +85,8 @@ void VE::WindowsWindow::Init(const WindowsProps& props)
 
    pWindow = glfwCreateWindow((int)width, (int)height, title.c_str(), nullptr, nullptr);
    glfwMakeContextCurrent(pWindow);
+   int gladStatus = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+   ASSERT_MSG(gladStatus, "Could not initialize GLAD!");
    glfwSetWindowUserPointer(pWindow, this);
    SetVSync(true);
 
