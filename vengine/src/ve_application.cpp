@@ -20,13 +20,14 @@ Application::Application()
    Log::Init();
    window = VE::Window::Create();
    window->SetEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
-
-   PushOverlay(new ImGuiLayer());
+   imGuiLayer = std::make_unique<ImGuiLayer>();
+   PushOverlay(imGuiLayer.get());
 }
 
 
 Application::~Application()
 {
+   layerStack.PopOverlay(imGuiLayer.get());
 }
 
 
@@ -39,6 +40,12 @@ void Application::Run()
       for (Layer* layer : layerStack) {
          layer->OnUpdate();
       }
+
+      imGuiLayer->Begin();
+      for (Layer* layer : layerStack) {
+         layer->OnImGuiRender();
+      }
+      imGuiLayer->End();
 
       Vector3 v(1, 2, 3);
 
