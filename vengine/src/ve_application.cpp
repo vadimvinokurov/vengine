@@ -39,6 +39,8 @@ void Application::Run()
          layer->OnUpdate();
       }
 
+      VE_ERROR("{} {}", Input::GetMousePosition().first, Input::GetMousePosition().second);
+
       window->OnUpdate();
    }
 }

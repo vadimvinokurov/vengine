@@ -15,6 +15,7 @@ public:
    virtual void SetEventCallback(const EventCallback& cb) override;
    virtual void SetVSync(bool enabled) override;
    virtual bool IsVSync() const override;
+   virtual void* GetNativeWindow() override { return pWindow; };
 
 private:
    virtual void Init(const WindowsProps& props);

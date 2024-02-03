@@ -140,8 +140,6 @@ void VE::ImGuiLayer::OnUpdate()
    io.DeltaTime = time > 0.0f ? (currentTime - time) : (1.0f / 60.0f);
    time = currentTime;
 
-   glfwPollEvents();
-
    ImGui_ImplOpenGL3_NewFrame();
    ImGui::NewFrame();
 

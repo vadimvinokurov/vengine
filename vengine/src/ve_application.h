@@ -5,6 +5,7 @@
 #include "common/ve_common.h"
 #include "ve_window.h"
 #include "events/ve_application_event.h"
+#include "platform/windows/ve_windows_input.h"
 
 namespace VE {
 class VE_API Application {
@@ -26,6 +27,7 @@ public:
 private:
    std::unique_ptr<Window> window;
    LayerStack layerStack{};
+   WindowsInput input{};
    bool running = true;
 
    inline static Application* instance = nullptr;
