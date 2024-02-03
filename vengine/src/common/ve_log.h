@@ -19,15 +19,15 @@ private:
 } //namespace VE
 
 #ifdef VE_ENGINE_REGION
-#define VE_CRITICAL(...) ::VE::Log::GetEngineLogger()->critical(__VA_ARGS__)
-#define VE_ERROR(...) ::VE::Log::GetEngineLogger()->error(__VA_ARGS__)
-#define VE_WARNING(...) ::VE::Log::GetEngineLogger()->warn(__VA_ARGS__)
-#define VE_INFO(...) ::VE::Log::GetEngineLogger()->info(__VA_ARGS__)
-#define VE_TRACE(...) ::VE::Log::GetEngineLogger()->trace(__VA_ARGS__)
+#define VE_LOG_CRITICAL(...) ::VE::Log::GetEngineLogger()->critical(__VA_ARGS__)
+#define VE_LOG_ERROR(...) ::VE::Log::GetEngineLogger()->error(__VA_ARGS__)
+#define VE_LOG_WARNING(...) ::VE::Log::GetEngineLogger()->warn(__VA_ARGS__)
+#define VE_LOG_MSG(...) ::VE::Log::GetEngineLogger()->info(__VA_ARGS__)
+#define VE_LOG_TRACE(...) ::VE::Log::GetEngineLogger()->trace(__VA_ARGS__)
 #else
-#define VE_CRITICAL(...) ::VE::Log::GetClientLogger()->critical(__VA_ARGS__)
-#define VE_ERROR(...) ::VE::Log::GetClientLogger()->error(__VA_ARGS__)
-#define VE_WARNING(...) ::VE::Log::GetClientLogger()->warn(__VA_ARGS__)
-#define VE_INFO(...) ::VE::Log::GetClientLogger()->info(__VA_ARGS__)
-#define VE_TRACE(...) ::VE::Log::GetClientLogger()->trace(__VA_ARGS__)
+#define VE_LOG_CRITICAL(...) ::VE::Log::GetClientLogger()->critical(__VA_ARGS__)
+#define VE_LOG_ERROR(...) ::VE::Log::GetClientLogger()->error(__VA_ARGS__)
+#define VE_LOG_WARNING(...) ::VE::Log::GetClientLogger()->warn(__VA_ARGS__)
+#define VE_LOG_INFO(...) ::VE::Log::GetClientLogger()->info(__VA_ARGS__)
+#define VE_LOG_TRACE(...) ::VE::Log::GetClientLogger()->trace(__VA_ARGS__)
 #endif

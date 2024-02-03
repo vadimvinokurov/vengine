@@ -39,7 +39,7 @@ void Application::Run()
          layer->OnUpdate();
       }
 
-      VE_ERROR("{} {}", Input::GetMousePosition().first, Input::GetMousePosition().second);
+      VE_LOG_ERROR("{} {}", Input::GetMousePosition().first, Input::GetMousePosition().second);
 
       window->OnUpdate();
    }
@@ -50,7 +50,7 @@ void Application::OnEvent(Event& event)
 {
    EventDispatcher dispatcher(event);
    dispatcher.Dispatch<WindowCloseEvent>(std::bind(&Application::OnWindowClose, this, std::placeholders::_1));
-   VE_TRACE("{}", event);
+   VE_LOG_TRACE("{}", event);
 
    for (auto it = layerStack.rbegin(); it != layerStack.rend(); ++it) {
       (*it)->OnEvent(event);

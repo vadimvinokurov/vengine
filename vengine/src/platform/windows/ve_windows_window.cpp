@@ -74,7 +74,7 @@ void VE::WindowsWindow::Init(const WindowsProps& props)
    width = props.width;
    height = props.height;
 
-   VE_INFO("Creating window {} ({}, {})", title, width, height);
+   VE_LOG_MSG("Creating window {} ({}, {})", title, width, height);
 
    if (!GLFWInitilized) {
       int success = glfwInit();

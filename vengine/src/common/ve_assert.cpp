@@ -5,7 +5,7 @@
 NOINLINE void VE::AssertImpl(std::string cond, std::string file, int line, std::string msg)
 {
    std::string logMsg = std::format("{}({}): {}. ", file, line, cond) + msg;
-   VE_ERROR(logMsg);
+   VE_LOG_ERROR(logMsg);
 
    if (IsDebuggerPresent()) { //TODO: encapsulate to platform code
       __debugbreak();
