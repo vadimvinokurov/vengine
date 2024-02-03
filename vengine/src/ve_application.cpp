@@ -7,6 +7,7 @@
 
 #include "common/ve_assert.h"
 #include "imgui/ve_imgui_layer.h"
+#include "math/ve_vector.h"
 
 using namespace VE;
 
@@ -39,7 +40,9 @@ void Application::Run()
          layer->OnUpdate();
       }
 
-      VE_LOG_ERROR("{} {}", Input::GetMousePosition().first, Input::GetMousePosition().second);
+      Vector3 v(1, 2, 3);
+
+      VE_LOG_ERROR("{} {} {}", Input::GetMousePosition().first, Input::GetMousePosition().second, v);
 
       window->OnUpdate();
    }
