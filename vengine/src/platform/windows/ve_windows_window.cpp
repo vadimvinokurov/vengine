@@ -11,7 +11,7 @@
 
 
 namespace {
-static void GLFWErrorCallback(int error, const char* description)
+void GLFWErrorCallback(int error, const char* description)
 {
    ASSERT_MSG(false, "GLFW error {} {}", error, description);
 }

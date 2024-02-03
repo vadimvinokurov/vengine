@@ -1,11 +1,8 @@
 #include "ve_pch.h"
-#include "common/ve_log.h"
 #include "ve_application.h"
 
-#include <glad/glad.h>
-
-
 #include "common/ve_assert.h"
+#include "common/ve_log.h"
 #include "imgui/ve_imgui_layer.h"
 #include "math/ve_vector.h"
 
@@ -14,38 +11,38 @@ using namespace VE;
 
 Application::Application()
 {
-   ASSERT(!instance);
-
+   ASSERT_MSG(!instance, "Instance already registered");
    instance = this;
-   Log::Init();
+
+   loger = std::make_unique<Log>();
+
    window = VE::Window::Create();
    window->SetEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
-   imGuiLayer = std::make_unique<ImGuiLayer>();
-   PushOverlay(imGuiLayer.get());
+
+   input = VE::Input::Create();
+
+   PushOverlay(&imGuiLayer);
 }
 
 
 Application::~Application()
 {
-   layerStack.PopOverlay(imGuiLayer.get());
+   PopOverlay(&imGuiLayer);
 }
 
 
 void Application::Run()
 {
    while (running) {
-      glClearColor(1, 0, 1, 1);
-      glClear(GL_COLOR_BUFFER_BIT);
-
       for (Layer* layer : layerStack) {
          layer->OnUpdate();
       }
 
-      imGuiLayer->Begin();
+      imGuiLayer.Begin();
       for (Layer* layer : layerStack) {
          layer->OnImGuiRender();
       }
-      imGuiLayer->End();
+      imGuiLayer.End();
 
       Vector3 v(1, 2, 3);
 
@@ -88,4 +85,16 @@ void Application::PushLayer(Layer* layer)
 void Application::PushOverlay(Layer* layer)
 {
    layerStack.PushOverlay(layer);
+}
+
+
+void Application::PopLayer(Layer* layer)
+{
+   layerStack.PopLayer(layer);
+}
+
+
+void Application::PopOverlay(Layer* layer)
+{
+   layerStack.PopOverlay(layer);
 }

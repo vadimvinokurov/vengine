@@ -6,15 +6,18 @@
 
 
 namespace VE {
-class VE_API Log {
+class VE_API Log final {
 public:
-   static void Init();
-   inline static std::shared_ptr<spdlog::logger>& GetEngineLogger();
-   inline static std::shared_ptr<spdlog::logger>& GetClientLogger();
+   Log();
+   static Log* Get() { return instance; }
+   static std::shared_ptr<spdlog::logger>& GetEngineLogger() { return Get()->engineLogger; }
+   static std::shared_ptr<spdlog::logger>& GetClientLogger() { return Get()->clientLogger; }
 
 private:
-   inline static std::shared_ptr<spdlog::logger> clientLogger;
-   inline static std::shared_ptr<spdlog::logger> engineLogger;
+   std::shared_ptr<spdlog::logger> clientLogger;
+   std::shared_ptr<spdlog::logger> engineLogger;
+
+   inline static Log* instance = nullptr;
 };
 } //namespace VE
 

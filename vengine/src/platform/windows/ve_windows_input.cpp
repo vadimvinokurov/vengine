@@ -6,6 +6,11 @@
 #include "ve_application.h"
 #include <GLFW/glfw3.h>
 
+std::unique_ptr<VE::Input> VE::Input::Create()
+{
+   return std::make_unique<VE::WindowsInput>();
+}
+
 
 VE::WindowsInput::WindowsInput()
 {

@@ -3,9 +3,10 @@
 
 namespace VE {
 
-class VE_API WindowsInput : Input {
+class VE_API WindowsInput : public Input {
 public:
    WindowsInput();
+
 protected:
    virtual bool IsKeyPressedImpl(int keycode) override;
    virtual bool IsKeyMouseButtonPressedImpl(int keycode) override;
