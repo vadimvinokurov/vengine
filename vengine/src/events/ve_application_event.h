@@ -4,7 +4,7 @@
 #include "ve_event.h"
 
 namespace VE {
-class VE_API WindowResizeEvent : public Event {
+class WindowResizeEvent : public Event {
 public:
    WindowResizeEvent(unsigned int width, unsigned int height)
       : width(width)
@@ -27,7 +27,7 @@ protected:
 };
 
 
-class VE_API WindowCloseEvent : public Event {
+class WindowCloseEvent : public Event {
 public:
    WindowCloseEvent() = default;
 
@@ -36,7 +36,7 @@ public:
 };
 
 
-class VE_API AppTickEvent : public Event {
+class AppTickEvent : public Event {
 public:
    AppTickEvent() = default;
 
@@ -45,7 +45,7 @@ public:
 };
 
 
-class VE_API AppUpdateEvent : public Event {
+class AppUpdateEvent : public Event {
 public:
    AppUpdateEvent() = default;
 
@@ -54,7 +54,7 @@ public:
 };
 
 
-class VE_API AppRenderEvent : public Event {
+class AppRenderEvent : public Event {
 public:
    AppRenderEvent() = default;
 

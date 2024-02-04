@@ -10,7 +10,7 @@
 #include "platform/windows/ve_windows_input.h"
 
 namespace VE {
-class VE_API Application {
+class Application {
 public:
    inline static Application* Get() { return instance; }
 

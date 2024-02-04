@@ -6,7 +6,7 @@
 #include "events/ve_mouse_event.h"
 
 namespace VE {
-class VE_API ImGuiLayer : public Layer {
+class ImGuiLayer : public Layer {
 public:
    ImGuiLayer();
    virtual ~ImGuiLayer();
@@ -14,7 +14,7 @@ public:
    virtual void OnImGuiRender() override;
    virtual void OnAttach() override;
    virtual void OnDetach() override;
-   
+
 
    void Begin();
    void End();

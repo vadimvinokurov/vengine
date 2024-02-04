@@ -12,7 +12,7 @@ struct WindowsProps {
 };
 
 
-class VE_API Window {
+class Window {
 public:
    virtual ~Window() = default;
    virtual void OnUpdate() = 0;

@@ -3,7 +3,7 @@
 
 namespace VE {
 
-class VE_API WindowsInput : public Input {
+class WindowsInput : public Input {
 public:
    WindowsInput();
 

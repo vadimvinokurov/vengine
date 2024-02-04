@@ -4,7 +4,7 @@
 #include "ve_event.h"
 
 namespace VE {
-class VE_API KeyEvent : public Event {
+class KeyEvent : public Event {
 public:
    int GetKeyCode() const { return keyCode; }
 
@@ -18,7 +18,7 @@ protected:
 };
 
 
-class VE_API KeyPressedEvent : public KeyEvent {
+class KeyPressedEvent : public KeyEvent {
 public:
    KeyPressedEvent(int _keyCode, int repeatCount)
       : KeyEvent(_keyCode)
@@ -38,7 +38,7 @@ private:
 };
 
 
-class VE_API KeyReleasedEvent : public KeyEvent {
+class KeyReleasedEvent : public KeyEvent {
 public:
    KeyReleasedEvent(int _keyCode)
       : KeyEvent(_keyCode)
@@ -53,7 +53,7 @@ public:
 };
 
 
-class VE_API KeyTypedEvent : public KeyEvent {
+class KeyTypedEvent : public KeyEvent {
 public:
    KeyTypedEvent(int _keyCode)
       : KeyEvent(_keyCode)

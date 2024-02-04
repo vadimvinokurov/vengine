@@ -6,7 +6,7 @@
 
 
 namespace VE {
-class VE_API Log final {
+class Log final {
 public:
    Log();
    static Log* Get() { return instance; }

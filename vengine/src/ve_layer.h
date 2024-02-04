@@ -4,7 +4,7 @@
 #include "events/ve_event.h"
 
 namespace VE {
-class VE_API Layer {
+class Layer {
 public:
    Layer(std::string name = "Default layer")
       : dbgName(std::move(name))

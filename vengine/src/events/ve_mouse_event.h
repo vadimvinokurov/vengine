@@ -4,7 +4,7 @@
 #include "ve_event.h"
 
 namespace VE {
-class VE_API MouseMovedEvent : public Event {
+class MouseMovedEvent : public Event {
 public:
    MouseMovedEvent(float x, float y)
       : x(x)
@@ -27,7 +27,7 @@ protected:
 };
 
 
-class VE_API MouseScrolledEvent : public Event {
+class MouseScrolledEvent : public Event {
 public:
    MouseScrolledEvent(float xOffset, float yOffset)
       : xOffset(xOffset)
@@ -50,7 +50,7 @@ protected:
 };
 
 
-class VE_API MouseButtonEvent : public Event {
+class MouseButtonEvent : public Event {
 public:
    int GetButton() const { return button; }
 
@@ -64,7 +64,7 @@ protected:
 };
 
 
-class VE_API MouseButtonPressedEvent : public MouseButtonEvent {
+class MouseButtonPressedEvent : public MouseButtonEvent {
 public:
    MouseButtonPressedEvent(int _button)
       : MouseButtonEvent(_button)
@@ -79,7 +79,7 @@ public:
 };
 
 
-class VE_API MouseButtonReleasedEvent : public MouseButtonEvent {
+class MouseButtonReleasedEvent : public MouseButtonEvent {
 public:
    MouseButtonReleasedEvent(int _button)
       : MouseButtonEvent(_button)

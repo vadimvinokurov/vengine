@@ -3,7 +3,7 @@
 #include "common/ve_common.h"
 
 namespace VE {
-class VE_API Input {
+class Input {
 public:
    static std::unique_ptr<Input> Create();
    virtual ~Input() = default;

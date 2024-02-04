@@ -45,7 +45,7 @@ enum EventCategory {
    virtual int GetCategoryFlags() const override { return category; }
 
 
-class VE_API Event {
+class Event {
    friend class EventDispatcher;
 
 public:
@@ -67,7 +67,7 @@ protected:
 };
 
 
-class VE_API EventDispatcher {
+class EventDispatcher {
    template <typename T>
    using EventFn = std::function<bool(T&)>;
 

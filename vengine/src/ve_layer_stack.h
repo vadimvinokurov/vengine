@@ -9,7 +9,7 @@ namespace VE {
 class Layer;
 
 
-class VE_API LayerStack {
+class LayerStack {
    using Iterator = std::vector<Layer*>::iterator;
    using ReverseIterator = std::vector<Layer*>::reverse_iterator;
 
