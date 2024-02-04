@@ -6,6 +6,8 @@
 #include "events/ve_key_event.h"
 #include "events/ve_mouse_event.h"
 
+#include "platform/opengl/ve_opengl_context.h"
+
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
@@ -39,7 +41,7 @@ VE::WindowsWindow::~WindowsWindow()
 void VE::WindowsWindow::OnUpdate()
 {
    glfwPollEvents();
-   glfwSwapBuffers(pWindow);
+   context->SwapBuffers();
 }
 
 
@@ -84,9 +86,8 @@ void VE::WindowsWindow::Init(const WindowsProps& props)
    }
 
    pWindow = glfwCreateWindow((int)width, (int)height, title.c_str(), nullptr, nullptr);
-   glfwMakeContextCurrent(pWindow);
-   int gladStatus = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-   ASSERT_MSG(gladStatus, "Could not initialize GLAD!");
+   context = std::make_unique<OpenGLContext>(pWindow);
+
    glfwSetWindowUserPointer(pWindow, this);
    SetVSync(true);
 

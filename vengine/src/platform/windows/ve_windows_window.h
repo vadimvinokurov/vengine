@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "ve_window.h"
+#include "renderer/ve_graphics_context.h"
 
 struct GLFWwindow;
 
@@ -23,6 +24,7 @@ private:
 
 private:
    GLFWwindow* pWindow = nullptr;
+   std::unique_ptr<GraphicsContext> context;
    std::string title;
    unsigned int width;
    unsigned int height;

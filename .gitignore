@@ -404,3 +404,4 @@ FodyWeavers.xsd
 *.sln
 *.clang-format
 *.clang-tidy
+imgui.ini
