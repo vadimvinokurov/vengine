@@ -8,6 +8,7 @@
 #include "events/ve_application_event.h"
 #include "imgui/ve_imgui_layer.h"
 #include "platform/windows/ve_windows_input.h"
+#include "renderer/ve_shader.h"
 
 namespace VE {
 class Application {
@@ -41,6 +42,7 @@ private:
    unsigned int vertexArray;
    unsigned int vertexBuffer;
    unsigned int indexBuffer;
+   std::unique_ptr<Shader> shader;
 };
 
 }
