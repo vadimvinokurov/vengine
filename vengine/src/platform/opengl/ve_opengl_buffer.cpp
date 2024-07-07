@@ -34,6 +34,18 @@ void OpenGLVertexBuffer::Unbind() const
 }
 
 
+void OpenGLVertexBuffer::SetLayout(const BufferLayout& layout)
+{
+   this->layout = layout;
+}
+
+
+const BufferLayout& OpenGLVertexBuffer::GetLayout() const
+{
+   return layout;
+}
+
+
 OpenGLIndexBuffer::OpenGLIndexBuffer(const uint32_t* indices, uint32_t count)
    : count(count)
 {
