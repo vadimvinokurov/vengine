@@ -8,6 +8,7 @@
 #include "events/ve_application_event.h"
 #include "imgui/ve_imgui_layer.h"
 #include "platform/windows/ve_windows_input.h"
+#include "renderer/ve_buffer.h"
 #include "renderer/ve_shader.h"
 
 namespace VE {
@@ -40,8 +41,8 @@ private:
    inline static Application* instance = nullptr;
 
    unsigned int vertexArray;
-   unsigned int vertexBuffer;
-   unsigned int indexBuffer;
+   std::unique_ptr<VertexBuffer> vertexBuffer;
+   std::unique_ptr<IndexBuffer> indexBuffer;
    std::unique_ptr<Shader> shader;
 };
 
