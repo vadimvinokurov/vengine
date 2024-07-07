@@ -31,6 +31,6 @@ private:
 #define VE_LOG_CRITICAL(...) ::VE::Log::GetClientLogger()->critical(__VA_ARGS__)
 #define VE_LOG_ERROR(...) ::VE::Log::GetClientLogger()->error(__VA_ARGS__)
 #define VE_LOG_WARNING(...) ::VE::Log::GetClientLogger()->warn(__VA_ARGS__)
-#define VE_LOG_INFO(...) ::VE::Log::GetClientLogger()->info(__VA_ARGS__)
+#define VE_LOG_MSG(...) ::VE::Log::GetClientLogger()->info(__VA_ARGS__)
 #define VE_LOG_TRACE(...) ::VE::Log::GetClientLogger()->trace(__VA_ARGS__)
 #endif

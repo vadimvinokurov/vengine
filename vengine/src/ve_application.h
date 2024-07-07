@@ -37,6 +37,10 @@ private:
    bool running = true;
 
    inline static Application* instance = nullptr;
+
+   unsigned int vertexArray;
+   unsigned int vertexBuffer;
+   unsigned int indexBuffer;
 };
 
 }
