@@ -10,38 +10,6 @@
 using namespace VE;
 
 
-static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
-{
-   switch (type) {
-      case ShaderDataType::Float:
-         return GL_FLOAT;
-      case ShaderDataType::Float2:
-         return GL_FLOAT;
-      case ShaderDataType::Float3:
-         return GL_FLOAT;
-      case ShaderDataType::Float4:
-         return GL_FLOAT;
-      case ShaderDataType::Mat3:
-         return GL_FLOAT;
-      case ShaderDataType::Mat4:
-         return GL_FLOAT;
-      case ShaderDataType::Int:
-         return GL_INT;
-      case ShaderDataType::Int2:
-         return GL_INT;
-      case ShaderDataType::Int3:
-         return GL_INT;
-      case ShaderDataType::Int4:
-         return GL_INT;
-      case ShaderDataType::Bool:
-         return GL_BOOL;
-   }
-
-   ASSERT_FAILED("Unknown openGl type");
-   return 0;
-}
-
-
 Application::Application()
 {
    ASSERT_MSG(!instance, "Instance already registered");
@@ -56,39 +24,49 @@ Application::Application()
 
    PushOverlay(&imGuiLayer);
 
-   glGenVertexArrays(1, &vertexArray);
-   glBindVertexArray(vertexArray);
+   vertexArray.reset(VertexArray::Create());
+   {
+      float vertices[3 * 7] = {
+         -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+         0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+         0.0f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f};
+
+      std::shared_ptr<VertexBuffer> vertexBuffer(VertexBuffer::Create(vertices, sizeof(vertices)));
 
 
-   float vertices[3 * 7] = {
-      -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-      0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-      0.0f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f};
+      BufferLayout layout = {
+         {ShaderDataType::Float3, "a_Position"},
+         {ShaderDataType::Float4, "a_Color"}};
 
-   vertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
+      vertexBuffer->SetLayout(layout);
+      vertexArray->AddVertexBuffer(vertexBuffer);
 
-   BufferLayout layout = {
-      {ShaderDataType::Float3, "a_Position"},
-      {ShaderDataType::Float4, "a_Color"}};
-
-   vertexBuffer->SetLayout(layout);
-
-   uint32_t index = 0;
-   for (const auto& element : vertexBuffer->GetLayout()) {
-      glEnableVertexAttribArray(index);
-      glVertexAttribPointer(
-         index,
-         element.GetComponentCount(),
-         ShaderDataTypeToOpenGLBaseType(element.type),
-         element.normolized ? GL_TRUE : GL_FALSE,
-         layout.GetStride(),
-         (const void*)element.offset);
-      ++index;
+      unsigned int indices[3] = {0, 1, 2};
+      std::shared_ptr<IndexBuffer> indexBuffer(IndexBuffer::Create(indices, 3));
+      vertexArray->SetIndexBuffer(indexBuffer);
    }
 
+   squaVertexArray.reset(VertexArray::Create());
+   {
+      float vertices[3 * 4] = {
+         -0.5f, -0.5f, 0.0f,
+         0.5f, -0.5f, 0.0f,
+         0.5f, 0.5f, 0.0f,
+         -0.5f, 0.5f, 0.0f};
 
-   unsigned int indices[3] = {0, 1, 2};
-   indexBuffer.reset(IndexBuffer::Create(indices, 3));
+      std::shared_ptr<VertexBuffer> vertexBuffer(VertexBuffer::Create(vertices, sizeof(vertices)));
+
+      BufferLayout layout = {
+         {ShaderDataType::Float3, "a_Position"}};
+
+      vertexBuffer->SetLayout(layout);
+      squaVertexArray->AddVertexBuffer(vertexBuffer);
+
+      uint32_t indices[6] = {0, 1, 2, 2, 3, 0};
+      std::shared_ptr<IndexBuffer> indexBuffer(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+      squaVertexArray->SetIndexBuffer(indexBuffer);
+   }
+
 
    std::string vertexSrc = R"(
       #version 330 core
@@ -117,6 +95,30 @@ Application::Application()
    )";
 
    shader.reset(new Shader(vertexSrc, fragmentSrc));
+
+   std::string vertexSrc2 = R"(
+      #version 330 core
+
+      layout(location = 0) in vec3 a_Position;
+
+      void main()
+      {
+         gl_Position = vec4(a_Position, 1.0);
+      }
+   )";
+
+   std::string fragmentSrc2 = R"(
+      #version 330 core
+
+      layout(location = 0) out vec4 color;
+
+      void main()
+      {
+         color = vec4(0.2,0.3, 0.8, 1.0);
+      }
+   )";
+
+   shader2.reset(new Shader(vertexSrc2, fragmentSrc2));
 }
 
 
@@ -132,10 +134,13 @@ void Application::Run()
       glClearColor(0.1f, 0.1f, 0.1f, 1);
       glClear(GL_COLOR_BUFFER_BIT);
 
-      shader->Bind();
+      shader2->Bind();
+      squaVertexArray->Bind();
+      glDrawElements(GL_TRIANGLES, squaVertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 
-      glBindVertexArray(vertexArray);
-      glDrawElements(GL_TRIANGLES, indexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
+      shader->Bind();
+      vertexArray->Bind();
+      glDrawElements(GL_TRIANGLES, vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 
       for (Layer* layer : layerStack) {
          layer->OnUpdate();

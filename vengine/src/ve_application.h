@@ -10,6 +10,7 @@
 #include "platform/windows/ve_windows_input.h"
 #include "renderer/ve_buffer.h"
 #include "renderer/ve_shader.h"
+#include "renderer/ve_vertex_array.h"
 
 namespace VE {
 class Application {
@@ -40,10 +41,10 @@ private:
 
    inline static Application* instance = nullptr;
 
-   unsigned int vertexArray;
-   std::unique_ptr<VertexBuffer> vertexBuffer;
-   std::unique_ptr<IndexBuffer> indexBuffer;
-   std::unique_ptr<Shader> shader;
+   std::shared_ptr<VertexArray> vertexArray;
+   std::shared_ptr<VertexArray> squaVertexArray;
+   std::shared_ptr<Shader> shader;
+   std::shared_ptr<Shader> shader2;
 };
 
 }
