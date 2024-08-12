@@ -11,9 +11,9 @@ using namespace VE;
 VertexArray* VertexArray::Create()
 {
    switch (Renderer::GetAPI()) {
-      case RendererAPI::None:
+      case RendererAPI::API::None:
          ASSERT_FAILED("RendererAPI::None is currently not supported");
-      case RendererAPI::OpenGL:
+      case RendererAPI::API::OpenGL:
          return new OpenGLVertexArray();
    }
 

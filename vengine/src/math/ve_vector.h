@@ -427,7 +427,7 @@ inline auto toVector(const SVector4& v4)
 }
 
 
-std::ostream& operator<<(std::ostream& s, const Vector3& v)
+inline std::ostream& operator<<(std::ostream& s, const Vector3& v)
 {
    return s << v.ToString();
 }

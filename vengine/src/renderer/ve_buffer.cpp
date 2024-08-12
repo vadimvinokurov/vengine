@@ -40,9 +40,9 @@ void BufferLayout::CalculateOffsetAndStride()
 VertexBuffer* VertexBuffer::Create(const float* vertices, uint32_t size)
 {
    switch (Renderer::GetAPI()) {
-      case RendererAPI::None:
+      case RendererAPI::API::None:
          ASSERT_FAILED("RendererAPI::None is currently not supported");
-      case RendererAPI::OpenGL:
+      case RendererAPI::API::OpenGL:
          return new OpenGLVertexBuffer(vertices, size);
    }
 
@@ -53,9 +53,9 @@ VertexBuffer* VertexBuffer::Create(const float* vertices, uint32_t size)
 IndexBuffer* IndexBuffer::Create(const uint32_t* indices, uint32_t size)
 {
    switch (Renderer::GetAPI()) {
-      case RendererAPI::None:
+      case RendererAPI::API::None:
          ASSERT_FAILED("RendererAPI::None is currently not supported");
-      case RendererAPI::OpenGL:
+      case RendererAPI::API::OpenGL:
          return new OpenGLIndexBuffer(indices, size);
    }
 

@@ -3,9 +3,10 @@
 
 #include "common/ve_assert.h"
 #include "common/ve_log.h"
-#include "glad/glad.h"
 #include "imgui/ve_imgui_layer.h"
 #include "math/ve_vector.h"
+#include "renderer/ve_renderer.h"
+#include "renderer/ve_render_command.h"
 
 using namespace VE;
 
@@ -131,16 +132,28 @@ Application::~Application()
 void Application::Run()
 {
    while (running) {
-      glClearColor(0.1f, 0.1f, 0.1f, 1);
-      glClear(GL_COLOR_BUFFER_BIT);
+
+      RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
+      RenderCommand::Clear();
+
+      Renderer::BeginScene();
 
       shader2->Bind();
-      squaVertexArray->Bind();
-      glDrawElements(GL_TRIANGLES, squaVertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+      Renderer::Submit(squaVertexArray);
 
       shader->Bind();
-      vertexArray->Bind();
-      glDrawElements(GL_TRIANGLES, vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+      Renderer::Submit(vertexArray);
+
+      Renderer::EndScene();
+
+
+      // shader2->Bind();
+      // squaVertexArray->Bind();
+      // glDrawElements(GL_TRIANGLES, squaVertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+      //
+      // shader->Bind();
+      // vertexArray->Bind();
+      // glDrawElements(GL_TRIANGLES, vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 
       for (Layer* layer : layerStack) {
          layer->OnUpdate();

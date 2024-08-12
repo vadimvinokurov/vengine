@@ -1,18 +1,15 @@
 ﻿#pragma once
+#include "ve_renderer_api.h"
 
 namespace VE {
-enum class RendererAPI {
-   None = 0,
-   OpenGL = 1
-};
 
 
 class Renderer {
 public:
-   inline static RendererAPI GetAPI() { return rendererApi; }
-
-private:
-   inline static RendererAPI rendererApi = RendererAPI::OpenGL;
+   static void BeginScene();
+   static void EndScene();
+   static void Submit(const std::shared_ptr<VertexArray>& vertexArray);
+   inline static RendererAPI::API GetAPI() { return RendererAPI::GetApi(); }
 };
 
 }
