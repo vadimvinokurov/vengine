@@ -120,3 +120,10 @@ void VE::Shader::Unbind() const
 {
    glUseProgram(0);
 }
+
+
+void VE::Shader::UploadUniformMat4(const std::string& name, const Matrix4& matrix)
+{
+   GLint location = glGetUniformLocation(redererId, name.c_str());
+   glUniformMatrix4fv(location, 1, GL_FALSE, matrix.data());
+}

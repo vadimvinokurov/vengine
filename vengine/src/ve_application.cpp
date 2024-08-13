@@ -25,6 +25,10 @@ Application::Application()
 
    PushOverlay(&imGuiLayer);
 
+   auto [width, height] = Application::Get()->GetWindow().GetSize();
+   float windowAspectRatio = static_cast<float>(width) / static_cast<float>(height);
+   camera.reset(new Camera(60.0f, windowAspectRatio, 0.1f, 8000));
+
    vertexArray.reset(VertexArray::Create());
    {
       float vertices[3 * 7] = {
@@ -74,12 +78,15 @@ Application::Application()
 
       layout(location = 0) in vec3 a_Position;
       layout(location = 1) in vec4 a_Color;
+
+      uniform mat4 viewProjection;
+
       out vec4 v_Color;
 
       void main()
       {
          v_Color = a_Color;
-         gl_Position = vec4(a_Position, 1.0);
+         gl_Position = viewProjection * vec4(a_Position, 1.0);
       }
    )";
 
@@ -101,10 +108,11 @@ Application::Application()
       #version 330 core
 
       layout(location = 0) in vec3 a_Position;
+      uniform mat4 viewProjection;
 
       void main()
       {
-         gl_Position = vec4(a_Position, 1.0);
+         gl_Position = viewProjection * vec4(a_Position, 1.0);
       }
    )";
 
@@ -136,14 +144,11 @@ void Application::Run()
       RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
       RenderCommand::Clear();
 
-      Renderer::BeginScene();
+      camera->SetPosition(0.5);
 
-      shader2->Bind();
-      Renderer::Submit(squaVertexArray);
-
-      shader->Bind();
-      Renderer::Submit(vertexArray);
-
+      Renderer::BeginScene(*camera);
+      Renderer::Submit(shader2, squaVertexArray);
+      Renderer::Submit(shader, vertexArray);
       Renderer::EndScene();
 
 

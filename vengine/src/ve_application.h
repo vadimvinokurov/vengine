@@ -9,6 +9,7 @@
 #include "imgui/ve_imgui_layer.h"
 #include "platform/windows/ve_windows_input.h"
 #include "renderer/ve_buffer.h"
+#include "renderer/ve_camera.h"
 #include "renderer/ve_shader.h"
 #include "renderer/ve_vertex_array.h"
 
@@ -45,6 +46,8 @@ private:
    std::shared_ptr<VertexArray> squaVertexArray;
    std::shared_ptr<Shader> shader;
    std::shared_ptr<Shader> shader2;
+
+   std::shared_ptr<Camera> camera;
 };
 
 }

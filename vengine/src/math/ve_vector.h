@@ -417,6 +417,10 @@ struct SVector4 {
          float z;
          float w;
       };
+
+      struct {
+         Vector3 xyz;
+      };
    };
 };
 

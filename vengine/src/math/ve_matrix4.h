@@ -279,14 +279,22 @@ namespace VE {
             std::cout << std::endl;
         }
 
+       Vector3& GetAxisX() { return vec[0].xyz; }
+       Vector3& GetAxisY() { return vec[1].xyz; }
+       Vector3& GetAxisZ() { return vec[2].xyz; }
+       Vector3& GetOrigin() { return vec[3].xyz; }
+       
         union {
             float v[16] = {0};
-            struct {
-                SVector4 right;
-                SVector4 forward;
-                SVector4 up;
-                SVector4 position;
-            };
+           struct {
+              SVector4 right;
+              SVector4 forward;
+              SVector4 up;
+              SVector4 position;
+           };
+           struct {
+              SVector4 vec[4];
+           };
             struct {
                 float _00;
                 float _10;

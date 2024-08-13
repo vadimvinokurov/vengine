@@ -240,20 +240,6 @@ struct Quaternion {
       return fromAxisAngle(axis, angle);
    }
 
-   __forceinline static Quaternion fromEulerAngles(const Vector3& angles)
-   {
-      Quaternion rotX;
-      Quaternion rotY;
-      Quaternion rotZ;
-
-      rotY.SetRotY(angles.y);
-      rotX.SetRotX(angles.x);
-      rotZ.SetRotZ(angles.z);
-
-
-      return rotY * rotZ * rotX;
-   }
-
    __forceinline static Quaternion fromAxisAngle(const Vector3& axis, float angle) noexcept
    {
       return Quaternion(axis * sinf(0.5f * angle), cosf(0.5f * angle));
@@ -336,41 +322,6 @@ struct Quaternion {
       return 4;
    }
 
-   void SetRotX(float angle)
-   {
-      angle = Deg2Rad(angle / 2.f);
-
-      float sinAngle = sinf(angle);
-      w = cosf(angle);
-      x = sinAngle;
-      y = 0;
-      z = 0;
-   }
-
-
-   void SetRotY(float angle)
-   {
-      angle = Deg2Rad(angle / 2.f);
-
-      float sinAngle = sinf(angle);
-      w = cosf(angle);
-      x = 0;
-      y = sinAngle;
-      z = 0;
-   }
-
-
-   void SetRotZ(float angle)
-   {
-      angle = Deg2Rad(angle / 2.f);
-
-      float sinAngle = sinf(angle);
-      w = cosf(angle);
-      x = 0;
-      y = 0;
-      z = sinAngle;
-   }
-
    union {
       float v[4];
 
@@ -383,6 +334,3 @@ struct Quaternion {
    };
 };
 } //namespace VE
-
-
-#endif //VENGINE3D_VE_QUATERNION_H
