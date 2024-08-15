@@ -41,13 +41,6 @@ private:
    bool running = true;
 
    inline static Application* instance = nullptr;
-
-   std::shared_ptr<VertexArray> vertexArray;
-   std::shared_ptr<VertexArray> squaVertexArray;
-   std::shared_ptr<Shader> shader;
-   std::shared_ptr<Shader> shader2;
-
-   std::shared_ptr<Camera> camera;
 };
 
 }
