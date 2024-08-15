@@ -116,17 +116,18 @@ public:
    virtual void OnAttach() override {}
    virtual void OnDetach() override {}
 
-   virtual void OnUpdate() override
+   virtual void OnUpdate(float dt) override
    {
+      VE_LOG_MSG("Delta time {0}", dt);
 
       if (Input::IsKeyPressed(VE_KEY_W)) {
-         cameraPosition.y -= cameraSpeed;
+         cameraPosition.y -= cameraSpeed * dt;
       } else if (Input::IsKeyPressed(VE_KEY_S)) {
-         cameraPosition.y += cameraSpeed;
+         cameraPosition.y += cameraSpeed * dt;
       } else if (Input::IsKeyPressed(VE_KEY_A)) {
-         cameraPosition.x += cameraSpeed;
+         cameraPosition.x += cameraSpeed * dt;
       } else if (Input::IsKeyPressed(VE_KEY_D)) {
-         cameraPosition.x -= cameraSpeed;
+         cameraPosition.x -= cameraSpeed * dt;
       }
       camera->SetPosition(cameraPosition);
       VE::RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
@@ -161,7 +162,7 @@ private:
 
    std::shared_ptr<VE::Camera> camera;
 
-   float cameraSpeed = 0.1f;
+   float cameraSpeed = 5.0f;
    Vector3 cameraPosition{};
 };
 

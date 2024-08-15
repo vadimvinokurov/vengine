@@ -3,6 +3,7 @@
 
 #include "common/ve_assert.h"
 #include "common/ve_log.h"
+#include "GLFW/glfw3.h"
 #include "imgui/ve_imgui_layer.h"
 #include "math/ve_vector.h"
 #include "renderer/ve_renderer.h"
@@ -36,8 +37,11 @@ Application::~Application()
 void Application::Run()
 {
    while (running) {
+      float time = (float)glfwGetTime();
+      float dt = time - lastFrameTime;
+      lastFrameTime = time;
       for (Layer* layer : layerStack) {
-         layer->OnUpdate();
+         layer->OnUpdate(dt);
       }
 
       imGuiLayer.Begin();

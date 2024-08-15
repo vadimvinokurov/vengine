@@ -40,6 +40,8 @@ private:
    LayerStack layerStack;
    bool running = true;
 
+   float lastFrameTime = 0.0f;
+
    inline static Application* instance = nullptr;
 };
 
