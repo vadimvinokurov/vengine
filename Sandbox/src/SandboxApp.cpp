@@ -63,13 +63,14 @@ public:
       layout(location = 1) in vec4 a_Color;
 
       uniform mat4 viewProjection;
+      uniform mat4 transform;
 
       out vec4 v_Color;
 
       void main()
       {
          v_Color = a_Color;
-         gl_Position = viewProjection * vec4(a_Position, 1.0);
+         gl_Position = viewProjection * transform * vec4(a_Position, 1.0);
       }
    )";
 
@@ -92,10 +93,11 @@ public:
 
       layout(location = 0) in vec3 a_Position;
       uniform mat4 viewProjection;
+      uniform mat4 transform;
 
       void main()
       {
-         gl_Position = viewProjection * vec4(a_Position, 1.0);
+         gl_Position = viewProjection * transform * vec4(a_Position, 1.0);
       }
    )";
 
@@ -118,8 +120,6 @@ public:
 
    virtual void OnUpdate(float dt) override
    {
-      VE_LOG_MSG("Delta time {0}", dt);
-
       if (Input::IsKeyPressed(VE_KEY_W)) {
          cameraPosition.y -= cameraSpeed * dt;
       } else if (Input::IsKeyPressed(VE_KEY_S)) {
@@ -129,15 +129,18 @@ public:
       } else if (Input::IsKeyPressed(VE_KEY_D)) {
          cameraPosition.x -= cameraSpeed * dt;
       }
-      camera->SetPosition(cameraPosition);
+      //camera->SetPosition(cameraPosition);
+
+
+      Matrix4 trs;
+      trs.GetOrigin() = cameraPosition;
+
       VE::RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
       VE::RenderCommand::Clear();
 
-      //camera->SetPosition(0.5);
-
       VE::Renderer::BeginScene(*camera);
-      VE::Renderer::Submit(shader2, squaVertexArray);
-      VE::Renderer::Submit(shader, vertexArray);
+      VE::Renderer::Submit(shader2, squaVertexArray, trs);
+      VE::Renderer::Submit(shader, vertexArray, trs);
       VE::Renderer::EndScene();
    }
 
