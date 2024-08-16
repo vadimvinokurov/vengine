@@ -1,5 +1,9 @@
 #include <vengine.h>
 
+
+#include "../../vengine/lib3dpart/imgui/imgui.h"
+#include "platform/opengl/opengl_shader.h"
+
 using namespace VE;
 
 
@@ -86,7 +90,7 @@ public:
       }
    )";
 
-      shader.reset(new Shader(vertexSrc, fragmentSrc));
+      shader.reset(Shader::Create(vertexSrc, fragmentSrc));
 
       std::string vertexSrc2 = R"(
       #version 330 core
@@ -105,14 +109,15 @@ public:
       #version 330 core
 
       layout(location = 0) out vec4 color;
+      uniform vec3 uColor;
 
       void main()
       {
-         color = vec4(0.2,0.3, 0.8, 1.0);
+         color = vec4(uColor, 1.0f);
       }
    )";
 
-      shader2.reset(new Shader(vertexSrc2, fragmentSrc2));
+      shader2.reset(Shader::Create(vertexSrc2, fragmentSrc2));
    }
 
    virtual void OnAttach() override {}
@@ -129,22 +134,39 @@ public:
       } else if (Input::IsKeyPressed(VE_KEY_D)) {
          cameraPosition.x -= cameraSpeed * dt;
       }
-      //camera->SetPosition(cameraPosition);
+      camera->SetPosition(cameraPosition);
 
 
-      Matrix4 trs;
-      trs.GetOrigin() = cameraPosition;
+      Matrix4 trs1;
 
       VE::RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
       VE::RenderCommand::Clear();
 
       VE::Renderer::BeginScene(*camera);
-      VE::Renderer::Submit(shader2, squaVertexArray, trs);
-      VE::Renderer::Submit(shader, vertexArray, trs);
+
+      Vector4 redColor(0.8f, 0.2f, 0.3f, 1.0f);
+      Vector4 blueColor(0.2f, 0.3f, 0.8f, 1.0f);
+
+      // Material* material = new Material();
+      // MaterialInststance* materialInstance = new MaterialInststance();
+      // material->Set("uColor", redColor);
+      // squareMesh->SetMaterial(material);
+      std::dynamic_pointer_cast<OpenGLShader>(shader2)->UploadUniformFloat3("uColor", squareColor);
+
+      Transform trs(Vector3(-0.6f, 0, 0));
+      VE::Renderer::Submit(shader2, squaVertexArray, trs.toMatrix());
+
+      trs.position += Vector3(1.1f, 0, 0);
+      VE::Renderer::Submit(shader2, squaVertexArray, trs.toMatrix());
       VE::Renderer::EndScene();
    }
 
-   virtual void OnImGuiRender() override {}
+   virtual void OnImGuiRender() override
+   {
+      ImGui::Begin("settings");
+      ImGui::ColorEdit3("Square Colot", squareColor.data());
+      ImGui::End();
+   }
 
    virtual void OnEvent(VE::Event& event)
    {
@@ -167,6 +189,8 @@ private:
 
    float cameraSpeed = 5.0f;
    Vector3 cameraPosition{};
+
+   Vector3 squareColor{0.8f, 0.2f, 0.3f};
 };
 
 
