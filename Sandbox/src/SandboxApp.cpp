@@ -2,7 +2,9 @@
 
 
 #include "../../vengine/lib3dpart/imgui/imgui.h"
+#include "core/ve_memory.h"
 #include "platform/opengl/opengl_shader.h"
+#include "renderer/ve_texture.h"
 
 using namespace VE;
 
@@ -40,16 +42,17 @@ public:
 
       squaVertexArray.reset(VertexArray::Create());
       {
-         float vertices[3 * 4] = {
-            -0.5f, -0.5f, 0.0f,
-            0.5f, -0.5f, 0.0f,
-            0.5f, 0.5f, 0.0f,
-            -0.5f, 0.5f, 0.0f};
+         float vertices[5 * 4] = {
+            -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+            0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+            0.5f, 0.5f, 0.0f, 1.0f, 1.0f,
+            -0.5f, 0.5f, 0.0f, 0.0f, 1.0f};
 
          std::shared_ptr<VertexBuffer> vertexBuffer(VertexBuffer::Create(vertices, sizeof(vertices)));
 
          BufferLayout layout = {
-            {ShaderDataType::Float3, "a_Position"}};
+            {ShaderDataType::Float3, "a_Position"},
+            {ShaderDataType::Float2, "a_TexCoord"}};
 
          vertexBuffer->SetLayout(layout);
          squaVertexArray->AddVertexBuffer(vertexBuffer);
@@ -60,65 +63,46 @@ public:
       }
 
 
-      std::string vertexSrc = R"(
+      std::string textureVertexShader = R"(
       #version 330 core
 
       layout(location = 0) in vec3 a_Position;
-      layout(location = 1) in vec4 a_Color;
-
+      layout(location = 1) in vec2 a_TexCoord;
       uniform mat4 viewProjection;
       uniform mat4 transform;
 
-      out vec4 v_Color;
+      out vec2 v_TexCoord;
 
       void main()
       {
-         v_Color = a_Color;
+         v_TexCoord = a_TexCoord;
          gl_Position = viewProjection * transform * vec4(a_Position, 1.0);
       }
    )";
 
-      std::string fragmentSrc = R"(
+      std::string textureFragmentShader = R"(
       #version 330 core
 
       layout(location = 0) out vec4 color;
-      in vec4 v_Color;
+      
+      in vec2 v_TexCoord;
+
+      uniform sampler2D u_Texture;
 
       void main()
       {
-         color = v_Color;
+         color = texture(u_Texture, v_TexCoord);
       }
    )";
 
-      shader.reset(Shader::Create(vertexSrc, fragmentSrc));
+      textureShader.reset(Shader::Create(textureVertexShader, textureFragmentShader));
 
-      std::string vertexSrc2 = R"(
-      #version 330 core
+      texture = Texture2D::Create("./assets/textures/Checkerboard.png");
 
-      layout(location = 0) in vec3 a_Position;
-      uniform mat4 viewProjection;
-      uniform mat4 transform;
-
-      void main()
-      {
-         gl_Position = viewProjection * transform * vec4(a_Position, 1.0);
-      }
-   )";
-
-      std::string fragmentSrc2 = R"(
-      #version 330 core
-
-      layout(location = 0) out vec4 color;
-      uniform vec3 uColor;
-
-      void main()
-      {
-         color = vec4(uColor, 1.0f);
-      }
-   )";
-
-      shader2.reset(Shader::Create(vertexSrc2, fragmentSrc2));
+      std::dynamic_pointer_cast<OpenGLShader>(textureShader)->Bind();
+      std::dynamic_pointer_cast<OpenGLShader>(textureShader)->UploadUniformInt("u_Texture", 0);
    }
+
 
    virtual void OnAttach() override {}
    virtual void OnDetach() override {}
@@ -126,13 +110,13 @@ public:
    virtual void OnUpdate(float dt) override
    {
       if (Input::IsKeyPressed(VE_KEY_W)) {
-         cameraPosition.y -= cameraSpeed * dt;
-      } else if (Input::IsKeyPressed(VE_KEY_S)) {
          cameraPosition.y += cameraSpeed * dt;
+      } else if (Input::IsKeyPressed(VE_KEY_S)) {
+         cameraPosition.y -= cameraSpeed * dt;
       } else if (Input::IsKeyPressed(VE_KEY_A)) {
-         cameraPosition.x += cameraSpeed * dt;
-      } else if (Input::IsKeyPressed(VE_KEY_D)) {
          cameraPosition.x -= cameraSpeed * dt;
+      } else if (Input::IsKeyPressed(VE_KEY_D)) {
+         cameraPosition.x += cameraSpeed * dt;
       }
       camera->SetPosition(cameraPosition);
 
@@ -151,15 +135,16 @@ public:
       // MaterialInststance* materialInstance = new MaterialInststance();
       // material->Set("uColor", redColor);
       // squareMesh->SetMaterial(material);
-      std::dynamic_pointer_cast<OpenGLShader>(shader2)->UploadUniformFloat3("uColor", squareColor);
 
-      Transform trs(Vector3(-0.6f, 0, 0));
-      VE::Renderer::Submit(shader2, squaVertexArray, trs.toMatrix());
+      std::dynamic_pointer_cast<OpenGLShader>(textureShader)->Bind();
+      std::dynamic_pointer_cast<OpenGLShader>(textureShader)->UploadUniformFloat3("uColor", squareColor);
 
-      trs.position += Vector3(1.1f, 0, 0);
-      VE::Renderer::Submit(shader2, squaVertexArray, trs.toMatrix());
+      Transform trs(Vector3(0.6f, 0, 0));
+      texture->Bind();
+      VE::Renderer::Submit(textureShader, squaVertexArray, trs.toMatrix());
       VE::Renderer::EndScene();
    }
+
 
    virtual void OnImGuiRender() override
    {
@@ -168,22 +153,25 @@ public:
       ImGui::End();
    }
 
+
    virtual void OnEvent(VE::Event& event)
    {
       MAKE_EVENT_DISPATCHER(event);
       DISPATCH_EVENT(ExampleLayer, KeyPressedEvent);
    }
 
+
    bool OnKeyPressedEvent(VE::KeyPressedEvent& event)
    {
       return false;
    }
 
+
 private:
+   Ref<Texture2D> texture;
    std::shared_ptr<VE::VertexArray> vertexArray;
    std::shared_ptr<VE::VertexArray> squaVertexArray;
-   std::shared_ptr<VE::Shader> shader;
-   std::shared_ptr<VE::Shader> shader2;
+   Ref<VE::Shader> textureShader;
 
    std::shared_ptr<VE::Camera> camera;
 

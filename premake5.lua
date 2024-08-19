@@ -36,13 +36,16 @@ project "vengine"
 	files
 	{
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/lib3dpart/stb_image/**.cpp",
+		"%{prj.name}/lib3dpart/stb_image/**.h"
 	}
 	
 	includedirs
 	{
 		"%{prj.name}/src",
 		"%{prj.name}/lib3dpart/spdlog/include",
+		"%{prj.name}/lib3dpart/stb_image",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.GLAD}",
 		"%{IncludeDir.ImGui}"
