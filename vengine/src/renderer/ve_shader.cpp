@@ -7,6 +7,20 @@
 using namespace VE;
 
 
+Ref<Shader> Shader::Create(const std::string& file)
+{
+   switch (Renderer::GetAPI()) {
+      case RendererAPI::API::None:
+         ASSERT_FAILED("RendererAPI::None is currently not supported");
+      case RendererAPI::API::OpenGL:
+         return std::make_shared<OpenGLShader>(file);
+   }
+
+
+   return {};
+}
+
+
 VE::Shader* Shader::Create(const std::string& vertexSrc, const std::string& fragmentSrc)
 {
    switch (Renderer::GetAPI()) {

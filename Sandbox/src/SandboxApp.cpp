@@ -61,41 +61,9 @@ public:
          std::shared_ptr<IndexBuffer> indexBuffer(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
          squaVertexArray->SetIndexBuffer(indexBuffer);
       }
-
-
-      std::string textureVertexShader = R"(
-      #version 330 core
-
-      layout(location = 0) in vec3 a_Position;
-      layout(location = 1) in vec2 a_TexCoord;
-      uniform mat4 viewProjection;
-      uniform mat4 transform;
-
-      out vec2 v_TexCoord;
-
-      void main()
-      {
-         v_TexCoord = a_TexCoord;
-         gl_Position = viewProjection * transform * vec4(a_Position, 1.0);
-      }
-   )";
-
-      std::string textureFragmentShader = R"(
-      #version 330 core
-
-      layout(location = 0) out vec4 color;
       
-      in vec2 v_TexCoord;
 
-      uniform sampler2D u_Texture;
-
-      void main()
-      {
-         color = texture(u_Texture, v_TexCoord);
-      }
-   )";
-
-      textureShader.reset(Shader::Create(textureVertexShader, textureFragmentShader));
+      textureShader = Shader::Create("./assets/shaders/Texture.glsl");
 
       texture = Texture2D::Create("./assets/textures/Checkerboard.png");
       textureLogo = Texture2D::Create("./assets/textures/ChernoLogo.png");
