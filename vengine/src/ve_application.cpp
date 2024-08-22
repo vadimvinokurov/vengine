@@ -22,6 +22,8 @@ Application::Application()
    window = VE::Window::Create();
    window->SetEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
 
+   Renderer::Init();
+
    input = VE::Input::Create();
 
    PushOverlay(&imGuiLayer);

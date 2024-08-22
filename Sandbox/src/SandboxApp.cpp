@@ -98,7 +98,8 @@ public:
       textureShader.reset(Shader::Create(textureVertexShader, textureFragmentShader));
 
       texture = Texture2D::Create("./assets/textures/Checkerboard.png");
-
+      textureLogo = Texture2D::Create("./assets/textures/ChernoLogo.png");
+      
       std::dynamic_pointer_cast<OpenGLShader>(textureShader)->Bind();
       std::dynamic_pointer_cast<OpenGLShader>(textureShader)->UploadUniformInt("u_Texture", 0);
    }
@@ -142,6 +143,8 @@ public:
       Transform trs(Vector3(0.6f, 0, 0));
       texture->Bind();
       VE::Renderer::Submit(textureShader, squaVertexArray, trs.toMatrix());
+      textureLogo->Bind();
+      VE::Renderer::Submit(textureShader, squaVertexArray, trs.toMatrix());
       VE::Renderer::EndScene();
    }
 
@@ -168,7 +171,7 @@ public:
 
 
 private:
-   Ref<Texture2D> texture;
+   Ref<Texture2D> texture, textureLogo;
    std::shared_ptr<VE::VertexArray> vertexArray;
    std::shared_ptr<VE::VertexArray> squaVertexArray;
    Ref<VE::Shader> textureShader;

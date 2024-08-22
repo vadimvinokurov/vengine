@@ -8,6 +8,7 @@ namespace VE {
 
 class Renderer {
 public:
+   static void Init();
    static void BeginScene(Camera& camera);
    static void EndScene();
    static void Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertexArray, const Matrix4& transform);

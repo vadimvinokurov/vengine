@@ -8,6 +8,12 @@
 using namespace VE;
 
 
+void Renderer::Init()
+{
+   RenderCommand::Init();
+}
+
+
 void Renderer::BeginScene(Camera& camera)
 {
    sceneData.viewProjectionMatrix = camera.GetViewProjectionMatrix();

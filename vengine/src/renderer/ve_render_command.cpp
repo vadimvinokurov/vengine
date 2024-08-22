@@ -1,5 +1,11 @@
 ﻿#include "ve_pch.h"
 #include "ve_render_command.h"
+void VE::RenderCommand::Init()
+{
+   rendererApi->Init();
+}
+
+
 void VE::RenderCommand::Clear()
 {
    rendererApi->Clear();

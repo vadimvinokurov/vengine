@@ -5,6 +5,7 @@
 namespace VE {
 class RenderCommand {
 public:
+   static void Init();
    static void Clear();
    static void SetClearColor(const Vector4& color);
    static void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray);
