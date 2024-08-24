@@ -25,8 +25,9 @@ static GLenum ShaderTypeFromString(const std::string& type)
 } //namespace VE
 
 
-VE::OpenGLShader::OpenGLShader(const std::string& vertexSource, const std::string& fragmentSource)
+VE::OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSource, const std::string& fragmentSource)
 {
+   this->name = name;
    std::unordered_map<GLenum, std::string> sources;
    sources[GL_VERTEX_SHADER] = vertexSource;
    sources[GL_FRAGMENT_SHADER] = fragmentSource;
@@ -39,12 +40,18 @@ VE::OpenGLShader::OpenGLShader(const std::string& filepath)
    std::string sources = ReadFile(filepath);
    auto shaderSources = PreProcess(sources);
    Compile(shaderSources);
+
+   auto lastSlash = filepath.find_last_of("/\\");
+   lastSlash = lastSlash == std::string::npos ? 0 : lastSlash + 1;
+   auto lastDot = filepath.rfind('.');
+   auto count = lastDot == std::string::npos ? filepath.size() - lastSlash : lastDot - lastSlash;
+   name = filepath.substr(lastSlash, count);
 }
 
 
 std::string VE::OpenGLShader::ReadFile(const std::string& filepath) const
 {
-   std::ifstream in(filepath, std::ios::in, std::ios::binary);
+   std::ifstream in(filepath, std::ios::in | std::ios::binary);
    std::string result;
    if (in) {
       in.seekg(0, std::ios::end);
@@ -86,7 +93,8 @@ std::unordered_map<GLenum, std::string> VE::OpenGLShader::PreProcess(const std::
 void VE::OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shaderSources)
 {
    GLuint program = glCreateProgram();
-   std::vector<GLenum> glShaderIDs(shaderSources.size());
+   std::vector<GLenum> glShaderIDs;
+   glShaderIDs.reserve(shaderSources.size());
    for (const auto& [type, source] : shaderSources) {
       GLuint shader = glCreateShader(type);
 
@@ -151,6 +159,12 @@ void VE::OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& sh
 VE::OpenGLShader::~OpenGLShader()
 {
    glDeleteProgram(redererId);
+}
+
+
+const std::string& VE::OpenGLShader::GetName() const
+{
+   return name;
 }
 
 

@@ -61,13 +61,12 @@ public:
          std::shared_ptr<IndexBuffer> indexBuffer(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
          squaVertexArray->SetIndexBuffer(indexBuffer);
       }
-      
 
-      textureShader = Shader::Create("./assets/shaders/Texture.glsl");
+      auto textureShader = shaderLibrary.Load("./assets/shaders/Texture.glsl");
 
       texture = Texture2D::Create("./assets/textures/Checkerboard.png");
       textureLogo = Texture2D::Create("./assets/textures/ChernoLogo.png");
-      
+
       std::dynamic_pointer_cast<OpenGLShader>(textureShader)->Bind();
       std::dynamic_pointer_cast<OpenGLShader>(textureShader)->UploadUniformInt("u_Texture", 0);
    }
@@ -105,6 +104,8 @@ public:
       // material->Set("uColor", redColor);
       // squareMesh->SetMaterial(material);
 
+      auto textureShader = shaderLibrary.Get("Texture");
+      
       std::dynamic_pointer_cast<OpenGLShader>(textureShader)->Bind();
       std::dynamic_pointer_cast<OpenGLShader>(textureShader)->UploadUniformFloat3("uColor", squareColor);
 
@@ -139,10 +140,10 @@ public:
 
 
 private:
+   ShaderLibrary shaderLibrary;
    Ref<Texture2D> texture, textureLogo;
    std::shared_ptr<VE::VertexArray> vertexArray;
    std::shared_ptr<VE::VertexArray> squaVertexArray;
-   Ref<VE::Shader> textureShader;
 
    std::shared_ptr<VE::Camera> camera;
 
