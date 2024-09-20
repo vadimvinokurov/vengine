@@ -3,13 +3,26 @@
 
 
 #include "common/ve_assert.h"
+#include "common/ve_log.h"
 
 using namespace VE;
 
 
-Camera::Camera(float fov, float aspect, float n, float f)
+Camera::Camera(float fov, float aspect, float n, float f, TPerspectiveCamera)
 {
-   projectionMatrix = GetOrtho(-1.6, 1.6, -0.9, 0.9, 0, 2);
+   ASSERT_FAILED("not implemented");
+}
+
+
+Camera::Camera(float left, float right, float bottom, float top, TOrthogonalCamera)
+{
+   SetOrthogonal(left, right, bottom, top);
+}
+
+
+void Camera::SetOrthogonal(float left, float right, float bottom, float top)
+{
+   projectionMatrix = GetOrtho(left, right, bottom, top, -1, 1);
    viewProjectionMatrix = projectionMatrix * viewMatrix;
 }
 
@@ -49,6 +62,7 @@ Matrix4 Camera::GetFrustum(float left, float right, float bottom, float top, flo
 
 Matrix4 Camera::GetOrtho(float left, float right, float bottom, float top, float n, float f)
 {
+   VE_LOG_WARNING("Ortho {} {} {} {}", left, right, bottom, top);
    ASSERT(left != right && top != bottom && n != f, "Invalid frustum");
    return Matrix4(
       2.0f / (right - left), 0.0f, 0.0f, 0.0f,
@@ -60,13 +74,6 @@ Matrix4 Camera::GetOrtho(float left, float right, float bottom, float top, float
 
 void Camera::RecalculateViewMatrix()
 {
-   // const Vector3& R = transform.GetAxisX();
-   // const Vector3& U = transform.GetAxisY();
-   // const Vector3& D = transform.GetAxisZ();
-   // const Vector3& P = transform.GetOrigin();
-   //
-   // viewMatrix = Matrix4(R.x, R.y, R.z, 0, U.x, U.y, U.z, 0, D.x, D.y, D.z, 0, P.x, P.y, P.z, 1).getInversed();
-
    viewMatrix = Matrix4();
    viewMatrix.GetOrigin() = transform.GetOrigin();
    viewMatrix.inverse();

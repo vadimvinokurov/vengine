@@ -4,12 +4,22 @@
 
 namespace VE {
 
+struct TPerspectiveCamera {};
+
+
+struct TOrthogonalCamera {};
+
+constexpr TPerspectiveCamera PerspectiveCamera{};
+constexpr TOrthogonalCamera OrthogonalCamera{};
+
 
 class Camera {
 public:
-   Camera(float fov, float aspect, float n, float f);
+   Camera(float fov, float aspect, float n, float f, TPerspectiveCamera);
+   Camera(float left, float right, float bottom, float top, TOrthogonalCamera);
 
 public:
+   void SetOrthogonal(float left, float right, float bottom, float top);
    void SetPosition(const Vector3& position);
    const Vector3& GetPosition() const { return transform.position.xyz; }
 

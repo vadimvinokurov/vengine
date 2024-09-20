@@ -1,6 +1,7 @@
 #include <vengine.h>
 
 
+#include "ve_camera_controller.h"
 #include "../../vengine/lib3dpart/imgui/imgui.h"
 #include "core/ve_memory.h"
 #include "platform/opengl/opengl_shader.h"
@@ -16,7 +17,7 @@ public:
    {
       auto [width, height] = VE::Application::Get()->GetWindow().GetSize();
       float windowAspectRatio = static_cast<float>(width) / static_cast<float>(height);
-      camera.reset(new Camera(60.0f, windowAspectRatio, 0.1f, 8000));
+      cameracontroller.reset(new CameraController(windowAspectRatio));
 
       vertexArray.reset(VertexArray::Create());
       {
@@ -77,24 +78,14 @@ public:
 
    virtual void OnUpdate(float dt) override
    {
-      if (Input::IsKeyPressed(VE_KEY_W)) {
-         cameraPosition.y += cameraSpeed * dt;
-      } else if (Input::IsKeyPressed(VE_KEY_S)) {
-         cameraPosition.y -= cameraSpeed * dt;
-      } else if (Input::IsKeyPressed(VE_KEY_A)) {
-         cameraPosition.x -= cameraSpeed * dt;
-      } else if (Input::IsKeyPressed(VE_KEY_D)) {
-         cameraPosition.x += cameraSpeed * dt;
-      }
-      camera->SetPosition(cameraPosition);
-
+      cameracontroller->OnUpdate(dt);
 
       Matrix4 trs1;
 
       VE::RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
       VE::RenderCommand::Clear();
 
-      VE::Renderer::BeginScene(*camera);
+      VE::Renderer::BeginScene(cameracontroller->GetCamera());
 
       Vector4 redColor(0.8f, 0.2f, 0.3f, 1.0f);
       Vector4 blueColor(0.2f, 0.3f, 0.8f, 1.0f);
@@ -105,7 +96,7 @@ public:
       // squareMesh->SetMaterial(material);
 
       auto textureShader = shaderLibrary.Get("Texture");
-      
+
       std::dynamic_pointer_cast<OpenGLShader>(textureShader)->Bind();
       std::dynamic_pointer_cast<OpenGLShader>(textureShader)->UploadUniformFloat3("uColor", squareColor);
 
@@ -128,14 +119,7 @@ public:
 
    virtual void OnEvent(VE::Event& event)
    {
-      MAKE_EVENT_DISPATCHER(event);
-      DISPATCH_EVENT(ExampleLayer, KeyPressedEvent);
-   }
-
-
-   bool OnKeyPressedEvent(VE::KeyPressedEvent& event)
-   {
-      return false;
+      cameracontroller->OnEvent(event);
    }
 
 
@@ -144,13 +128,8 @@ private:
    Ref<Texture2D> texture, textureLogo;
    std::shared_ptr<VE::VertexArray> vertexArray;
    std::shared_ptr<VE::VertexArray> squaVertexArray;
-
-   std::shared_ptr<VE::Camera> camera;
-
-   float cameraSpeed = 5.0f;
-   Vector3 cameraPosition{};
-
    Vector3 squareColor{0.8f, 0.2f, 0.3f};
+   std::shared_ptr<VE::CameraController> cameracontroller;
 };
 
 
