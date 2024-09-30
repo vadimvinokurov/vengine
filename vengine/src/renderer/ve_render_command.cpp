@@ -22,3 +22,9 @@ void VE::RenderCommand::DrawIndexed(const std::shared_ptr<VertexArray>& vertexAr
 {
    rendererApi->DrawIndexed(vertexArray);
 }
+
+
+void VE::RenderCommand::SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height)
+{
+   rendererApi->SetViewport(x, y, width, height);
+}

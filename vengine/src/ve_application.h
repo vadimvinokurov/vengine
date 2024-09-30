@@ -23,7 +23,8 @@ public:
 
    void Run();
    void OnEvent(Event& event);
-   bool OnWindowClose(WindowCloseEvent& event);
+   bool OnWindowCloseEvent(WindowCloseEvent& event);
+   bool OnWindowResizeEvent(WindowResizeEvent& event);
    void PushLayer(Layer* layer);
    void PushOverlay(Layer* layer);
    void PopLayer(Layer* layer);
@@ -41,7 +42,7 @@ private:
    bool running = true;
 
    float lastFrameTime = 0.0f;
-
+   bool minimized = false;
    inline static Application* instance = nullptr;
 };
 

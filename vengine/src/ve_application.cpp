@@ -42,8 +42,11 @@ void Application::Run()
       float time = (float)glfwGetTime();
       float dt = time - lastFrameTime;
       lastFrameTime = time;
-      for (Layer* layer : layerStack) {
-         layer->OnUpdate(dt);
+
+      if (!minimized) {
+         for (Layer* layer : layerStack) {
+            layer->OnUpdate(dt);
+         }
       }
 
       imGuiLayer.Begin();
@@ -59,8 +62,9 @@ void Application::Run()
 
 void Application::OnEvent(Event& event)
 {
-   EventDispatcher dispatcher(event);
-   dispatcher.Dispatch<WindowCloseEvent>(std::bind(&Application::OnWindowClose, this, std::placeholders::_1));
+   MAKE_EVENT_DISPATCHER(event);
+   DISPATCH_EVENT(Application, WindowCloseEvent);
+   DISPATCH_EVENT(Application, WindowResizeEvent);
    VE_LOG_TRACE("{}", event);
 
    for (auto it = layerStack.rbegin(); it != layerStack.rend(); ++it) {
@@ -72,11 +76,24 @@ void Application::OnEvent(Event& event)
 }
 
 
-bool Application::OnWindowClose(WindowCloseEvent& event)
+bool Application::OnWindowCloseEvent(WindowCloseEvent& event)
 {
    running = false;
 
    return true;
+}
+
+
+bool Application::OnWindowResizeEvent(WindowResizeEvent& event)
+{
+   if (event.GetWidth() == 0 || event.GetHeight() == 0) {
+      minimized = true;
+      return false;
+   }
+
+   minimized = false;
+   Renderer::OnWindowResize(event.GetWidth(), event.GetHeight());
+   return false;
 }
 
 
