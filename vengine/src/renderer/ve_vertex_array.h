@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "ve_buffer.h"
+#include "core/ve_memory.h"
 
 namespace VE {
 class VertexArray {
@@ -12,6 +13,6 @@ public:
 
    virtual const std::vector<std::shared_ptr<VertexBuffer>>& GetVertexBuffers() = 0;
    virtual const std::shared_ptr<IndexBuffer>& GetIndexBuffer() = 0;
-   static VertexArray* Create();
+   static Ref<VertexArray> Create();
 };
 } //namespace VE

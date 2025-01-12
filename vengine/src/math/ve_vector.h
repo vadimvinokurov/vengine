@@ -436,4 +436,10 @@ inline std::ostream& operator<<(std::ostream& s, const Vector3& v)
    return s << v.ToString();
 }
 
+
+inline std::ostream& operator<<(std::ostream& s, const Vector4& v)
+{
+   return s << std::format("[{}, {}, {}, {}]", v.x, v.y, v.z, v.w);
+}
+
 } //namespace VE

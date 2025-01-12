@@ -225,5 +225,5 @@ void VE::OpenGLShader::UploadUniformMat4(const std::string& name, const Matrix4&
 void VE::OpenGLShader::UploadUniformFloat4(const std::string& name, const Vector4& vec4)
 {
    GLint location = glGetUniformLocation(redererId, name.c_str());
-   glUniform4f(location, vec4.x, vec4.y, vec4.z, vec4.z);
+   glUniform4f(location, vec4.x, vec4.y, vec4.z, vec4.w);
 }

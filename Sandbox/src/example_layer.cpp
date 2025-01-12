@@ -15,7 +15,7 @@ ExampleLayer::ExampleLayer()
    float windowAspectRatio = static_cast<float>(width) / static_cast<float>(height);
    cameraController.reset(new CameraController(windowAspectRatio));
 
-   vertexArray.reset(VertexArray::Create());
+   vertexArray = VertexArray::Create();
    {
       float vertices[3 * 7] = {
          -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
@@ -37,7 +37,7 @@ ExampleLayer::ExampleLayer()
       vertexArray->SetIndexBuffer(indexBuffer);
    }
 
-   squaVertexArray.reset(VertexArray::Create());
+   squaVertexArray = VertexArray::Create();
    {
       float vertices[5 * 4] = {
          -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
@@ -59,7 +59,7 @@ ExampleLayer::ExampleLayer()
       squaVertexArray->SetIndexBuffer(indexBuffer);
    }
 
-   auto textureShader = shaderLibrary.Load("./assets/shaders/Texture.glsl");
+   auto textureShader = shaderLibrary.Load("./assets/shaders/texture.glsl");
 
    texture = Texture2D::Create("./assets/textures/Checkerboard.png");
    textureLogo = Texture2D::Create("./assets/textures/ChernoLogo.png");
@@ -88,7 +88,7 @@ void ExampleLayer::OnUpdate(float dt)
    // material->Set("uColor", redColor);
    // squareMesh->SetMaterial(material);
 
-   auto textureShader = shaderLibrary.Get("Texture");
+   auto textureShader = shaderLibrary.Get("texture");
 
    std::dynamic_pointer_cast<OpenGLShader>(textureShader)->Bind();
    std::dynamic_pointer_cast<OpenGLShader>(textureShader)->UploadUniformFloat3("uColor", squareColor);

@@ -8,13 +8,13 @@
 using namespace VE;
 
 
-VertexArray* VertexArray::Create()
+VE::Ref<VertexArray> VertexArray::Create()
 {
    switch (Renderer::GetAPI()) {
       case RendererAPI::API::None:
          ASSERT_FAILED("RendererAPI::None is currently not supported");
       case RendererAPI::API::OpenGL:
-         return new OpenGLVertexArray();
+         return VE::Ref<VertexArray>{new OpenGLVertexArray()};
    }
 
    return nullptr;
