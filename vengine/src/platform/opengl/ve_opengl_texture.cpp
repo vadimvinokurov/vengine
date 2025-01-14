@@ -8,6 +8,25 @@
 using namespace VE;
 
 
+OpenGLTexture2D::OpenGLTexture2D(uint32_t width_, uint32_t height_)
+{
+   width = width_;
+   height = height_;
+   
+   internalFormat = GL_RGBA8;
+   dataFormat = GL_RGBA;
+
+   glCreateTextures(GL_TEXTURE_2D, 1, &handle);
+   glTextureStorage2D(handle, 1, internalFormat, width, height);
+
+   glTextureParameteri(handle, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+   glTextureParameteri(handle, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+   glTextureParameteri(handle, GL_TEXTURE_WRAP_S, GL_REPEAT);
+   glTextureParameteri(handle, GL_TEXTURE_WRAP_T, GL_REPEAT);
+}
+
+
 OpenGLTexture2D::OpenGLTexture2D(const std::string& path_)
    : path(path_)
 {
@@ -19,7 +38,6 @@ OpenGLTexture2D::OpenGLTexture2D(const std::string& path_)
    width = width_;
    height = height_;
 
-   GLenum internalFormat = 0, dataFormat = 0;
    if (channels_ == 4) {
       internalFormat = GL_RGBA8;
       dataFormat = GL_RGBA;
@@ -48,6 +66,15 @@ OpenGLTexture2D::OpenGLTexture2D(const std::string& path_)
 OpenGLTexture2D::~OpenGLTexture2D()
 {
    glDeleteTextures(1, &handle);
+}
+
+
+void OpenGLTexture2D::SetData(void* data, uint32_t size)
+{
+   uint32_t bpc = dataFormat == GL_RGBA ? 4 : 3;
+   ASSERT_MSG(internalFormat != 0 && dataFormat != 0, "Format not supported!");
+   ASSERT_MSG(size == width * height * bpc, "Data must be entire texture");
+   glTextureSubImage2D(handle, 0, 0, 0, width, height, dataFormat, GL_UNSIGNED_BYTE, data);
 }
 
 

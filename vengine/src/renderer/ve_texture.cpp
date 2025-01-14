@@ -19,3 +19,17 @@ VE::Ref<VE::Texture2D> VE::Texture2D::Create(const std::string& path)
 
    return nullptr;
 }
+
+
+VE::Ref<VE::Texture2D> VE::Texture2D::Create(uint32_t width, uint32_t height)
+{
+   switch (Renderer::GetAPI()) {
+      case RendererAPI::API::None:
+         ASSERT_FAILED("RendererAPI::None is currently not supported");
+      case RendererAPI::API::OpenGL:
+         return std::make_shared<OpenGLTexture2D>(width, height);
+   }
+
+
+   return nullptr;
+}

@@ -10,8 +10,8 @@
 namespace VE {
 struct Renderer2DStorage {
    VE::Ref<VE::VertexArray> vertexArray;
-   VE::Ref<VE::Shader> flatColorShader;
    VE::Ref<VE::Shader> textureShader;
+   VE::Ref<VE::Texture2D> whiteTexture;
 };
 
 
@@ -42,8 +42,10 @@ void VE::Renderer2D::Init()
    VE::Ref<IndexBuffer> indexBuffer(IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
    renderer2DStorage->vertexArray->SetIndexBuffer(indexBuffer);
 
-   renderer2DStorage->flatColorShader = Shader::Create("./assets/shaders/flat_color.glsl");
    renderer2DStorage->textureShader = Shader::Create("./assets/shaders/texture.glsl");
+   renderer2DStorage->whiteTexture = Texture2D::Create(1, 1);
+   uint32_t whiteTextureData = 0xffffffff;
+   renderer2DStorage->whiteTexture->SetData(&whiteTextureData, sizeof(uint32_t));
 }
 
 
@@ -55,10 +57,8 @@ void VE::Renderer2D::Shutdown()
 
 void VE::Renderer2D::BeginScene(const Camera& camera)
 {
-   renderer2DStorage->flatColorShader->Bind();
-   renderer2DStorage->flatColorShader->SetMat4("viewProjection", camera.GetViewProjectionMatrix());
    renderer2DStorage->textureShader->Bind();
-   renderer2DStorage->textureShader->SetMat4("viewProjection", camera.GetViewProjectionMatrix());
+   renderer2DStorage->textureShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
    renderer2DStorage->textureShader->SetInt("u_Texture", 0);
 }
 
@@ -77,8 +77,8 @@ void Renderer2D::DrawQuad(const Vector2& position, const Vector2& size, const Re
 void Renderer2D::DrawQuad(const Vector3& position, const Vector2& size, const Ref<Texture>& texture)
 {
    Transform transform(position, {}, Vector3(size.x, size.y, 1.0f));
-   renderer2DStorage->textureShader->Bind();
-   renderer2DStorage->textureShader->SetMat4("transform", transform.toMatrix());
+   renderer2DStorage->textureShader->SetMat4("u_Transform", transform.toMatrix());
+   renderer2DStorage->textureShader->SetFloat4("u_Color", Vector4{1.0f, 1.0f, 1.0f, 1.0f});
    texture->Bind();
    renderer2DStorage->vertexArray->Bind();
    RenderCommand::DrawIndexed(renderer2DStorage->vertexArray);
@@ -94,9 +94,11 @@ void VE::Renderer2D::DrawQuad(const Vector2& position, const Vector2& size, cons
 void VE::Renderer2D::DrawQuad(const Vector3& position, const Vector2& size, const Vector4& color)
 {
    Transform transform(position, {}, Vector3(size.x, size.y, 1.0f));
-   renderer2DStorage->flatColorShader->Bind();
-   renderer2DStorage->flatColorShader->SetFloat4("u_Color", color);
-   renderer2DStorage->flatColorShader->SetMat4("transform", transform.toMatrix());
+   renderer2DStorage->textureShader->SetMat4("u_Transform", transform.toMatrix());
+
+   renderer2DStorage->textureShader->SetFloat4("u_Color", color);
+   renderer2DStorage->whiteTexture->Bind();
+
    renderer2DStorage->vertexArray->Bind();
    RenderCommand::DrawIndexed(renderer2DStorage->vertexArray);
 }

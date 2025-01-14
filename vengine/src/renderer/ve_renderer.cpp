@@ -36,8 +36,8 @@ void Renderer::EndScene()
 void Renderer::Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertexArray, const Matrix4& transform)
 {
    shader->Bind();
-   std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("viewProjection", sceneData.viewProjectionMatrix);
-   std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("transform", transform);
+   std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_ViewProjection", sceneData.viewProjectionMatrix);
+   std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_Transform", transform);
    vertexArray->Bind();
    RenderCommand::DrawIndexed(vertexArray);
 }
