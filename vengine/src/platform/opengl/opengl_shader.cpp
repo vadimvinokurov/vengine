@@ -180,6 +180,12 @@ void VE::OpenGLShader::Unbind() const
 }
 
 
+void VE::OpenGLShader::SetInt(const std::string& name, int value)
+{
+   UploadUniformInt(name, value);
+}
+
+
 void VE::OpenGLShader::SetMat4(const std::string& name, const Matrix4& value)
 {
    UploadUniformMat4(name, value);

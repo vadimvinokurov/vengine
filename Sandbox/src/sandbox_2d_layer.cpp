@@ -17,6 +17,9 @@ void Sandbox2DLayer::OnAttach()
    auto [width, height] = VE::Application::Get()->GetWindow().GetSize();
    float windowAspectRatio = static_cast<float>(width) / static_cast<float>(height);
    cameraController.reset(new CameraController(windowAspectRatio));
+
+   texture = Texture2D::Create("./assets/textures/Checkerboard.png");
+   textureLogo = Texture2D::Create("./assets/textures/ChernoLogo.png");
 }
 
 
@@ -33,8 +36,9 @@ void Sandbox2DLayer::OnUpdate(float dt)
    VE::RenderCommand::Clear();
 
    VE::Renderer2D::BeginScene(cameraController->GetCamera());
+   VE::Renderer2D::DrawQuad(Vector3{0.0f, 0.0f, -0.1f}, {10.0f, 10.0f}, texture);
    VE::Renderer2D::DrawQuad(Vector2{0.0f, 0.0f}, {1.0f, 1.0f}, {0.8f, 0.2f, 0.3f, 1.0f});
-   VE::Renderer2D::DrawQuad(Vector2{1.0f, 0.0f}, {1.0f, 1.0f}, {0.2f, 0.2f, 0.3f, 1.0f});
+   VE::Renderer2D::DrawQuad(Vector2{1.0f, 0.0f}, {1.0f, 1.0f}, textureLogo);
    VE::Renderer2D::EndScene();
 }
 
