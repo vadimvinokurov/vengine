@@ -14,6 +14,10 @@ public:
    virtual void Bind() const override;
    virtual void Unbind() const override;
 
+   virtual void SetMat4(const std::string& name, const Matrix4& value) override;
+   virtual void SetFloat3(const std::string& name, const Vector3& value) override;
+   virtual void SetFloat4(const std::string& name, const Vector4& value) override;
+
    void UploadUniformMat3(const std::string& name, const Matrix3& matrix);
    void UploadUniformMat4(const std::string& name, const Matrix4& matrix);
    void UploadUniformInt(const std::string& name, int v);
@@ -31,4 +35,4 @@ private:
    uint32_t redererId;
    std::string name;
 };
-}
+} //namespace VE

@@ -5,7 +5,6 @@
 #include "ve_renderer.h"
 #include "ve_shader.h"
 #include "ve_vertex_array.h"
-#include "platform/opengl/opengl_shader.h"
 
 
 namespace VE {
@@ -53,8 +52,8 @@ void VE::Renderer2D::Shutdown()
 
 void VE::Renderer2D::BeginScene(const Camera& camera)
 {
-   std::dynamic_pointer_cast<OpenGLShader>(renderer2DStorage->flatColorShader)->Bind();
-   std::dynamic_pointer_cast<OpenGLShader>(renderer2DStorage->flatColorShader)->UploadUniformMat4("viewProjection", camera.GetViewProjectionMatrix());
+   renderer2DStorage->flatColorShader->Bind();
+   renderer2DStorage->flatColorShader->SetMat4("viewProjection", camera.GetViewProjectionMatrix());
 }
 
 
@@ -71,10 +70,10 @@ void VE::Renderer2D::DrawQuad(const Vector2& position, const Vector2& size, cons
 
 void VE::Renderer2D::DrawQuad(const Vector3& position, const Vector2& size, const Vector4& color)
 {
-   Transform transform(position);
-   std::dynamic_pointer_cast<OpenGLShader>(renderer2DStorage->flatColorShader)->Bind();
-   std::dynamic_pointer_cast<OpenGLShader>(renderer2DStorage->flatColorShader)->UploadUniformFloat4("u_Color", color);
-   std::dynamic_pointer_cast<OpenGLShader>(renderer2DStorage->flatColorShader)->UploadUniformMat4("transform", transform.toMatrix());
+   Transform transform(position, {}, Vector3(size.x, size.y, 1.0f));
+   renderer2DStorage->flatColorShader->Bind();
+   renderer2DStorage->flatColorShader->SetFloat4("u_Color", color);
+   renderer2DStorage->flatColorShader->SetMat4("transform", transform.toMatrix());
    renderer2DStorage->vertexArray->Bind();
    RenderCommand::DrawIndexed(renderer2DStorage->vertexArray);
 }

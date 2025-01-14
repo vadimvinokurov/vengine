@@ -34,6 +34,7 @@ void Sandbox2DLayer::OnUpdate(float dt)
 
    VE::Renderer2D::BeginScene(cameraController->GetCamera());
    VE::Renderer2D::DrawQuad(Vector2{0.0f, 0.0f}, {1.0f, 1.0f}, {0.8f, 0.2f, 0.3f, 1.0f});
+   VE::Renderer2D::DrawQuad(Vector2{1.0f, 0.0f}, {1.0f, 1.0f}, {0.2f, 0.2f, 0.3f, 1.0f});
    VE::Renderer2D::EndScene();
 }
 

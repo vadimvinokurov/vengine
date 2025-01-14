@@ -180,6 +180,24 @@ void VE::OpenGLShader::Unbind() const
 }
 
 
+void VE::OpenGLShader::SetMat4(const std::string& name, const Matrix4& value)
+{
+   UploadUniformMat4(name, value);
+}
+
+
+void VE::OpenGLShader::SetFloat3(const std::string& name, const Vector3& value)
+{
+   UploadUniformFloat3(name, value);
+}
+
+
+void VE::OpenGLShader::SetFloat4(const std::string& name, const Vector4& value)
+{
+   UploadUniformFloat4(name, value);
+}
+
+
 void VE::OpenGLShader::UploadUniformMat3(const std::string& name, const Matrix3& matrix)
 {
    GLint location = glGetUniformLocation(redererId, name.c_str());
