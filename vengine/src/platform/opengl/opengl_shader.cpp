@@ -192,6 +192,12 @@ void VE::OpenGLShader::SetMat4(const std::string& name, const Matrix4& value)
 }
 
 
+void VE::OpenGLShader::SetFloat(const std::string& name, const float& value)
+{
+   UploadUniformFloat(name, value);
+}
+
+
 void VE::OpenGLShader::SetFloat3(const std::string& name, const Vector3& value)
 {
    UploadUniformFloat3(name, value);

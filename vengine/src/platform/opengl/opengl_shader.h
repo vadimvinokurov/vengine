@@ -16,6 +16,7 @@ public:
 
    virtual void SetInt(const std::string& name, int value) override;
    virtual void SetMat4(const std::string& name, const Matrix4& value) override;
+   virtual void SetFloat(const std::string& name, const float& value) override;
    virtual void SetFloat3(const std::string& name, const Vector3& value) override;
    virtual void SetFloat4(const std::string& name, const Vector4& value) override;
 

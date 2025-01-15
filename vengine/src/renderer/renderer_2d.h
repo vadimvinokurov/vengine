@@ -12,8 +12,8 @@ public:
    static void BeginScene(const Camera& camera);
    static void EndScene();
 
-   static void DrawQuad(const Vector2& position, const Vector2& size, const Ref<Texture>& texture);
-   static void DrawQuad(const Vector3& position, const Vector2& size, const Ref<Texture>& texture);
+   static void DrawQuad(const Vector2& position, const Vector2& size, const Ref<Texture>& texture, float tilingFactor = 1.0f);
+   static void DrawQuad(const Vector3& position, const Vector2& size, const Ref<Texture>& texture, float tilingFactor = 1.0f);
    static void DrawQuad(const Vector2& position, const Vector2& size, const Vector4& color);
    static void DrawQuad(const Vector3& position, const Vector2& size, const Vector4& color);
 };

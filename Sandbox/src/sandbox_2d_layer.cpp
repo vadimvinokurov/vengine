@@ -36,7 +36,7 @@ void Sandbox2DLayer::OnUpdate(float dt)
    VE::RenderCommand::Clear();
 
    VE::Renderer2D::BeginScene(cameraController->GetCamera());
-   VE::Renderer2D::DrawQuad(Vector3{0.0f, 0.0f, -0.1f}, {10.0f, 10.0f}, texture);
+   VE::Renderer2D::DrawQuad(Vector3{0.0f, 0.0f, -0.1f}, {10.0f, 10.0f}, texture, 10.0f);
    VE::Renderer2D::DrawQuad(Vector2{0.0f, 0.0f}, {1.0f, 1.0f}, squareColor);
    VE::Renderer2D::DrawQuad(Vector2{1.0f, 0.0f}, {1.0f, 1.0f}, textureLogo);
    VE::Renderer2D::EndScene();

@@ -14,6 +14,7 @@ public:
 
    virtual void SetInt(const std::string& name, int value) = 0;
    virtual void SetMat4(const std::string& name, const Matrix4& value) = 0;
+   virtual void SetFloat(const std::string& name, const float& value) = 0;
    virtual void SetFloat3(const std::string& name, const Vector3& value) = 0;
    virtual void SetFloat4(const std::string& name, const Vector4& value) = 0;
 

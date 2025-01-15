@@ -68,17 +68,19 @@ void VE::Renderer2D::EndScene()
 }
 
 
-void Renderer2D::DrawQuad(const Vector2& position, const Vector2& size, const Ref<Texture>& texture)
+void Renderer2D::DrawQuad(const Vector2& position, const Vector2& size, const Ref<Texture>& texture, float tilingFactor)
 {
-   DrawQuad({position.x, position.y, 0.0f}, size, texture);
+   DrawQuad({position.x, position.y, 0.0f}, size, texture, tilingFactor);
 }
 
 
-void Renderer2D::DrawQuad(const Vector3& position, const Vector2& size, const Ref<Texture>& texture)
+void Renderer2D::DrawQuad(const Vector3& position, const Vector2& size, const Ref<Texture>& texture, float tilingFactor)
 {
    Transform transform(position, {}, Vector3(size.x, size.y, 1.0f));
    renderer2DStorage->textureShader->SetMat4("u_Transform", transform.toMatrix());
    renderer2DStorage->textureShader->SetFloat4("u_Color", Vector4{1.0f, 1.0f, 1.0f, 1.0f});
+   renderer2DStorage->textureShader->SetFloat("u_TilingFactor", tilingFactor);
+
    texture->Bind();
    renderer2DStorage->vertexArray->Bind();
    RenderCommand::DrawIndexed(renderer2DStorage->vertexArray);
@@ -95,7 +97,7 @@ void VE::Renderer2D::DrawQuad(const Vector3& position, const Vector2& size, cons
 {
    Transform transform(position, {}, Vector3(size.x, size.y, 1.0f));
    renderer2DStorage->textureShader->SetMat4("u_Transform", transform.toMatrix());
-
+   renderer2DStorage->textureShader->SetFloat("u_TilingFactor", 1.0f);
    renderer2DStorage->textureShader->SetFloat4("u_Color", color);
    renderer2DStorage->whiteTexture->Bind();
 
