@@ -1,5 +1,6 @@
 ﻿#include "sandbox_2d_layer.h"
 #include "../../vengine/lib3dpart/imgui/imgui.h"
+#include "math/ve_math_utility.h"
 #include "platform/opengl/opengl_shader.h"
 #include "renderer/renderer_2d.h"
 
@@ -38,6 +39,7 @@ void Sandbox2DLayer::OnUpdate(float dt)
    VE::Renderer2D::BeginScene(cameraController->GetCamera());
    VE::Renderer2D::DrawQuad(Vector3{0.0f, 0.0f, -0.1f}, {10.0f, 10.0f}, texture, 10.0f);
    VE::Renderer2D::DrawQuad(Vector2{0.0f, 0.0f}, {1.0f, 1.0f}, squareColor);
+   VE::Renderer2D::DrawRotatedQuad(Vector2{-1.1f, 0.0f}, {0.5f, 0.5f}, VE_DEG2RAD(45), squareColor);
    VE::Renderer2D::DrawQuad(Vector2{1.0f, 0.0f}, {1.0f, 1.0f}, textureLogo);
    VE::Renderer2D::EndScene();
 }
