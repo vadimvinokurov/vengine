@@ -87,6 +87,4 @@ void VE::ImGuiLayer::End()
 
 void VE::ImGuiLayer::OnImGuiRender()
 {
-   static bool show = true;
-   ImGui::ShowDemoWindow(&show);
 }

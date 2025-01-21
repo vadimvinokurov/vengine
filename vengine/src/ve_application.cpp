@@ -119,3 +119,9 @@ void Application::PopOverlay(Layer* layer)
 {
    layerStack.PopOverlay(layer);
 }
+
+
+void Application::Close()
+{
+   running = false;
+}

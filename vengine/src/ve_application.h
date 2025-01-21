@@ -29,6 +29,7 @@ public:
    void PushOverlay(Layer* layer);
    void PopLayer(Layer* layer);
    void PopOverlay(Layer* layer);
+   void Close();
 
    Window& GetWindow() { return *window; }
 
@@ -46,4 +47,4 @@ private:
    inline static Application* instance = nullptr;
 };
 
-}
+} //namespace VE
