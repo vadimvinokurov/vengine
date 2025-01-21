@@ -24,12 +24,15 @@ Camera& CameraController::GetCamera()
 void CameraController::OnUpdate(float dt)
 {
    if (Input::IsKeyPressed(VE_KEY_W)) {
-      cameraPosition.y -= cameraSpeed * dt;
-   } else if (Input::IsKeyPressed(VE_KEY_S)) {
       cameraPosition.y += cameraSpeed * dt;
-   } else if (Input::IsKeyPressed(VE_KEY_A)) {
+   }
+   if (Input::IsKeyPressed(VE_KEY_S)) {
+      cameraPosition.y -= cameraSpeed * dt;
+   }
+   if (Input::IsKeyPressed(VE_KEY_A)) {
       cameraPosition.x -= cameraSpeed * dt;
-   } else if (Input::IsKeyPressed(VE_KEY_D)) {
+   }
+   if (Input::IsKeyPressed(VE_KEY_D)) {
       cameraPosition.x += cameraSpeed * dt;
    }
 

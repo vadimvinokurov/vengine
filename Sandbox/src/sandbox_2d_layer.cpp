@@ -55,5 +55,5 @@ void Sandbox2DLayer::OnImGuiRender()
 
 void Sandbox2DLayer::OnEvent(VE::Event& event)
 {
-   // cameraController->OnEvent(event);
+   cameraController->OnEvent(event);
 }
