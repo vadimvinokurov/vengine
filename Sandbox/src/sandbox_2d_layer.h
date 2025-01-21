@@ -2,6 +2,7 @@
 
 #include <vengine.h>
 #include "ve_camera_controller.h"
+#include "renderer/ve_framebuffer.h"
 #include "renderer/ve_texture.h"
 
 
@@ -17,6 +18,7 @@ public:
    virtual void OnEvent(VE::Event& event) override;
 
 private:
+   VE::Ref<VE::Framebuffer> framebuffer;
    VE::Ref<VE::CameraController> cameraController;
    VE::Ref<VE::Texture2D> texture, textureLogo;
    VE::Vector4 squareColor{0.8f, 0.2f, 0.3f, 1.0f};
